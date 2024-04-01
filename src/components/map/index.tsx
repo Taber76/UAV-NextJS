@@ -7,9 +7,9 @@ import { TileLayer, MapContainer, Marker, Popup, useMapEvents, Polyline } from "
 
 //import { addWaypoint } from "../../store/uavSlice";
 
-import 'leaflet/dist/Leaflet.css';
-import "leaflet-defaulticon-compatibility"
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
+import '../../../node_modules/leaflet/dist/leaflet.css';
+import "../../../node_modules/leaflet-defaulticon-compatibility"
+import "../../../node_modules/leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import './styles.css';
 
 //import 'leaflet-bing-layer'
