@@ -3,12 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { Input, Button, useDisclosure } from "@nextui-org/react";
 import { SimpleModal } from '..';
-//import axios from 'axios'
-
 
 import { useEffect, useState } from 'react'
 
-//const apiUrl = import.meta.env.VITE_API_URL
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({

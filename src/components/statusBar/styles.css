@@ -1,0 +1,14 @@
+.statusBar {
+  z-index: 10;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: end;
+  background-color: black;
+}
+
+.disabled {
+  opacity: 0.5; 
+  cursor: not-allowed;
+}

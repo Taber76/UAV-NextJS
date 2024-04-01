@@ -1,0 +1,40 @@
+.mainContainer {
+  background-color: rgba(31, 27, 27, 0.267);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.statusBarContainer {
+  flex: 0 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.mapContainer {
+  flex: 1;
+  position: relative;
+  z-index: 0;
+}
+
+.videoContainer {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: 0;
+}
+
+.horizonContainer {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: 245px;
+}
+
+.waypointsContainer {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+}
