@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TileLayer, MapContainer, Marker, Popup, useMapEvents, Polyline, useMap } from "react-leaflet";
 
-import { UAVState, addWaypoint, initialize } from "../../store/uavSlice";
+import { UavState, removeUAV, addWaypoint } from "../../store/uavSlice";
 
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import "../../../node_modules/leaflet-defaulticon-compatibility"
@@ -26,7 +26,7 @@ const MapComponent = () => {
   const mapRef = useRef<L.Map | null>(null);
   const [map, setMap] = useState(null);
   const dispatch = useDispatch();
-  const uavData = useSelector((state: UAVState) => state.uavs.uavs[0]);
+  const uavData = useSelector((state: UavState) => state.uavList[0]);
 
   useEffect(() => {
     if (mapRef.current && uavData.connected) {

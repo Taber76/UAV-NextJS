@@ -3,7 +3,7 @@ import uavReducer from './uavSlice';
 
 export default configureStore({
   reducer: {
-    uavs: uavReducer,
+    uavList: uavReducer,
   },
 });
 
