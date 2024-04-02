@@ -6,7 +6,6 @@ import { SimpleModal } from '..';
 
 import { useEffect, useState } from 'react'
 
-
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -29,6 +28,8 @@ const LoginForm = () => {
         throw new Error('Error al obtener los datos');
       }
       // guardar algun dato local del usuario
+      localStorage.setItem('username', formData.username)
+
       router.push('/main')
     } catch (error) {
       console.error('Error:', error);

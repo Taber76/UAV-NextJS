@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.10",
+    "@reduxjs/toolkit": "^2.2.3",
     "bcrypt": "^5.1.1",
     "framer-motion": "^11.0.24",
     "leaflet": "^1.9.4",
@@ -17,9 +18,14 @@
     "leaflet-rotatedmarker": "^0.2.0",
     "mongoose": "^8.2.4",
     "next": "14.1.4",
+    "next-redux-wrapper": "^8.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-leaflet": "^4.2.1"
+    "react-leaflet": "^4.2.1",
+    "react-redux": "^9.1.0",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -28,6 +34,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-redux": "^7.1.33",
+    "@types/socket.io": "^3.0.2",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
