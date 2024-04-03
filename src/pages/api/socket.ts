@@ -20,8 +20,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
       let authenticated = false;
       let userId = '';
 
-      socket.on('authenticate', async (id) => {
-        //const id = 'ghgjkh'//, role } = checkJWT(token);
+      socket.on('authenticateUser', async (id) => {
+        //const id = checkJWT(token);
         //if (id) {
         authenticated = true;
         userId = id;

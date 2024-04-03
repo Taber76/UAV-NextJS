@@ -6,6 +6,7 @@ import { SimpleModal } from '..';
 
 import { useEffect, useState } from 'react'
 import { checkJWT } from '../../server/helpers/user.helper';
+import FetchLib from '@/lib/fetch.lib';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -25,20 +26,9 @@ const LoginForm = () => {
     }
   }, [])
 
-  const fetchData = async () => {
+  const fetchLoginData = async () => {
     try {
-      const response = await fetch('/api/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        onOpen()
-        throw new Error('Error al obtener los datos');
-      }
-      const token = await response.json();
+      const token = await FetchLib.post('/api/user/login', formData)
       localStorage.setItem('username', formData.username)
       localStorage.setItem('token', JSON.stringify(token.token)) // arreglar con JWT
       router.push('/main')
@@ -52,7 +42,7 @@ const LoginForm = () => {
     if (formData.username === '' || formData.password === '') {
       onOpen()
     }
-    fetchData();
+    fetchLoginData();
   }
 
   const handleInputChange = (e: any) => {
