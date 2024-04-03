@@ -33,7 +33,6 @@ class UavController {
     }
   }
 
-
 }
 
 export default new UavController()
