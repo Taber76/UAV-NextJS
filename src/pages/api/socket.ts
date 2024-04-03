@@ -1,13 +1,11 @@
 import type { NextApiRequest } from "next";
-import { checkJWT } from "../../server/helpers/user.helper";
+//import { checkJWT } from "../../server/helpers/user.helper";
 import { NextApiResponseServerIO } from "@/types/next";
 import { Server as ServerIO, Socket } from "socket.io";
 import { Server as NetServer } from "http";
 interface UsersDict {
   [key: string]: string;
 }
-
-const users_dict: UsersDict = {}
 
 export default function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
 
@@ -18,27 +16,21 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
 
     io.on('connection', (socket) => {
       let authenticated = false;
-      let userId = '';
+      //let socketClientId = '';
 
-      socket.on('authenticateUser', async (id) => {
-        //const id = checkJWT(token);
-        //if (id) {
+      socket.on('authenticate', async (id) => {
+        // debo checkear en la base de datos
         authenticated = true;
-        userId = id;
-        users_dict[userId] = socket.id;
-        socket.emit('authenticated');
-        //}
-        console.log(users_dict)
+        socket.emit('authenticated', socket.id);
       });
 
-      socket.on('message', async (msg, recipientId) => {
+      socket.on('message', async (msg, socketRecipientId) => {
         if (!authenticated) return;
-        io.to(users_dict[recipientId]).emit('message', msg, userId);
+        io.to(socketRecipientId).emit('message', msg, socket.id);
       })
 
       socket.on('disconnect', () => {
         authenticated = false;
-        delete users_dict[userId];
       });
     });
 

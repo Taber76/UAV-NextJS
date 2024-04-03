@@ -5,7 +5,7 @@ import { StatusBar, Map } from "../../components";
 import FetchLib from '@/lib/fetch.lib';
 
 import './styles.css'
-import { get } from 'http';
+
 
 export default function Main() {
   const [uavs, setUavs] = useState([]);
@@ -13,12 +13,13 @@ export default function Main() {
   useEffect(() => {
 
     // set socket
-    const socketInit = async () => {
+    const socketInit = async (id: string) => {
       await fetch('/api/socket');
       const socket = io()
-      socket.emit('authenticateUser', token.id);
-      socket.on('authenticated', () => {
-        console.log('authenticated for server');
+      socket.emit('authenticate', id);
+      socket.on('authenticated', (clientSocketId) => {
+        console.log('Authenticated for server with socket id:', clientSocketId); ///CONSOLE
+        localStorage.setItem('clientSocketId', clientSocketId);
       });
       const interval = setInterval(() => {
         // verificar estodo del uav
@@ -38,8 +39,8 @@ export default function Main() {
       window.location.href = '/login'
     }
 
-    socketInit();
-    getConnectedUavs();
+    socketInit(token.id);
+    //getConnectedUavs();
 
     return () => {
       //clearInterval(interval);
