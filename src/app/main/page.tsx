@@ -8,12 +8,17 @@ import './styles.css'
 export default function Main() {
 
   useEffect(() => {
+    const tokenString = localStorage.getItem('token')
+    const token = tokenString ? JSON.parse(tokenString) : null
+    if (!token) {
+      window.location.href = '/login'
+    }
 
     const socketInit = async () => {
       await fetch('/api/socket');
       const socket = io()
 
-      socket.emit('authenticate', localStorage.getItem('username'));
+      socket.emit('authenticate', token.id);
 
       socket.on('authenticated', () => {
         console.log('authenticated for server');

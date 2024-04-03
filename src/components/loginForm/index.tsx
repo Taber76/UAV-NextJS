@@ -5,6 +5,7 @@ import { Input, Button, useDisclosure } from "@nextui-org/react";
 import { SimpleModal } from '..';
 
 import { useEffect, useState } from 'react'
+import { checkJWT } from '../../server/helpers/user.helper';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,16 @@ const LoginForm = () => {
   });
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
+
+  useEffect(() => {
+    const username = localStorage.getItem('username')
+    const tokenString = localStorage.getItem('token')
+    const token = tokenString ? JSON.parse(tokenString) : null
+    if (username && token) { // arreglar con JWT
+      console.log(checkJWT(token))
+      //router.push('/main')
+    }
+  }, [])
 
   const fetchData = async () => {
     try {
@@ -27,9 +38,9 @@ const LoginForm = () => {
         onOpen()
         throw new Error('Error al obtener los datos');
       }
-      // guardar algun dato local del usuario
+      const token = await response.json();
       localStorage.setItem('username', formData.username)
-
+      localStorage.setItem('token', JSON.stringify(token.token)) // arreglar con JWT
       router.push('/main')
     } catch (error) {
       console.error('Error:', error);
