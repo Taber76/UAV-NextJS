@@ -15,7 +15,7 @@ export default function Main() {
     // set socket
     const socketInit = async (id: string) => {
       await fetch('/api/socket');
-      const socket = io()
+      const socket = io(process.env.SOCKET_IO_URI as string);
       socket.emit('authenticate', id);
       socket.on('authenticated', (clientSocketId) => {
         console.log('Authenticated for server with socket id:', clientSocketId); ///CONSOLE
