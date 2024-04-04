@@ -1,25 +1,17 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 
-const DropDownButton = ({ uavs }: { uavs: any[] }) => {
+const DropDownButton: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string) => void }> = ({ uavs, handleSelectedUav }) => {
   const [buttonText, setButtonText] = useState('SELECT UAV');
 
-  useEffect(() => {
-    uavs.push({
-      uavname: "Desconectar",
-      uavId: 'No Id'
-    })
-  }, [uavs]);
-
-  const handleItemClick = (key: string) => {
+  const handleItemClick = (key: string, value: string, socketId: string) => {
     if (key === 'No Id') {
       setButtonText('SELECT UAV');
     } else {
-      setButtonText(key);
-
-      // handle item click
+      setButtonText(value);
+      handleSelectedUav(socketId);
     }
   };
 
@@ -41,7 +33,7 @@ const DropDownButton = ({ uavs }: { uavs: any[] }) => {
             key={item.uavId}
             color={item.uavId === "No Id" ? "danger" : "default"}
             className={item.uavId === "No Id" ? "text-danger" : ""}
-            onClick={() => handleItemClick(item.uavId)}
+            onClick={() => handleItemClick(item.uavId, item.uavname, item.socketId)}
           >
             {item.uavname}
           </DropdownItem>

@@ -27,7 +27,7 @@ class OnlineUavModel {
 
   public async getOnlineList(): Promise<IOnlineUav[] | null> {
     try {
-      const onlineList = await this.model.find({ where: { connected: true } });
+      const onlineList = await this.model.find({ connected: true });
       return onlineList;
     } catch (error) {
       console.error(error);

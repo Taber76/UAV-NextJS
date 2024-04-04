@@ -9,6 +9,11 @@ import './styles.css'
 
 export default function Main() {
   const [uavs, setUavs] = useState([]);
+  const [uavConnectedSocket, setUavConnectedSocket] = useState('');
+
+  const handleSelectedUav = (socketId: string) => {
+    setUavConnectedSocket(socketId);
+  }
 
   useEffect(() => {
 
@@ -18,17 +23,23 @@ export default function Main() {
       const socket = io(process.env.SOCKET_IO_URI as string);
       socket.emit('authenticate', id);
       socket.on('authenticated', (clientSocketId) => {
-        console.log('Authenticated for server with socket id:', clientSocketId); ///CONSOLE
         localStorage.setItem('clientSocketId', clientSocketId);
       });
+      socket.on('message', (msg, uavConnectedSocket) => {
+        console.log('Message received:', msg, ' from: ', uavConnectedSocket);
+      });
+
+      // heartbeat
       const interval = setInterval(() => {
-        // verificar estodo del uav
-      }, 15000);
+        if (uavConnectedSocket)
+          socket.emit('message', 'Beat', uavConnectedSocket);
+      }, 1500);
     }
 
     // get connected uavs
     const getConnectedUavs = async () => {
       const response = await FetchLib.get('/api/uav/getconnected');
+      response.push({ uavname: "Desconectar", uavId: 'No Id', socketId: '' });
       setUavs(response);
     }
 
@@ -40,7 +51,7 @@ export default function Main() {
     }
 
     socketInit(token.id);
-    //getConnectedUavs();
+    getConnectedUavs();
 
     return () => {
       //clearInterval(interval);
@@ -53,6 +64,7 @@ export default function Main() {
       <div className="statusBarContainer">
         <StatusBar
           uavs={uavs}
+          handleSelectedUav={handleSelectedUav}
         />
       </div>
 
