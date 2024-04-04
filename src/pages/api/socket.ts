@@ -24,6 +24,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
         const uavId = await uavController.socketLogin(uavname, password);
         if (uavId) {
           await onlineuavModel.online({ uavname, uavId, connected: true, socketId: socket.id });
+          authenticated = true;
           socket.emit('authenticateduav', socket.id);
         }
       })
