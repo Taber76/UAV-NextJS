@@ -9,7 +9,7 @@ class OnlineUavModel {
     this.model = MongoDB.getInstance().getConnection().model('OnlineUav', OnlineUavSchema);
   }
 
-  public async online(uav: IOnlineUav): Promise<boolean> {
+  public async online(uav: Partial<IOnlineUav>): Promise<boolean> {
     try {
       const ckeckUav = await this.model.findOne({ uavname: uav.uavname });
       if (!ckeckUav) {

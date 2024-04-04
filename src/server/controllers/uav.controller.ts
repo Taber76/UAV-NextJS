@@ -7,7 +7,7 @@ class UavController {
 
   public async login(req: NextApiRequest, res: NextApiResponse) {
     try {
-      const { uavname, password } = req.body;
+      const { uavname, password, socketId } = req.body;
       const uav = await UavModel.login(uavname);
       if (!uav) {
         return res.status(401).json({ error: 'Invalid credentials' });
@@ -16,6 +16,7 @@ class UavController {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
       const token = createJWT(uav.id, uav.type);
+      await OnlineUavModel.online({ uavname, uavId: uav.id, connected: true, socketId });
       res.status(200).json({ token });
     } catch (error) {
       console.error(error);
@@ -30,6 +31,22 @@ class UavController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
+  public async socketLogin(uavname: string, password: string): Promise<string | null> {
+    try {
+      const uav = await UavModel.login(uavname);
+      if (!uav) {
+        return null
+      }
+      if (!checkPassword(password, uav.password)) {
+        return null
+      }
+      return uav.id
+    } catch (error) {
+      console.error(error);
+      return null
     }
   }
 

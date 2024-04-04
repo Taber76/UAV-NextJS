@@ -1,41 +1,25 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 
 const DropDownButton = ({ uavs }: { uavs: any[] }) => {
   const [buttonText, setButtonText] = useState('SELECT UAV');
-  const items = [
-    {
-      id: 'kggkj45k423g5k23j',
-      key: "new",
-      uavname: "Pajaro Loco I",
-    },
-    {
-      id: 'kggkj45k423g5k235435j',
-      key: "copy",
-      uavname: "Pajaro Loco II",
-    },
-    {
-      id: 'kggkj45k3g5k235435j',
-      key: "delete",
+
+  useEffect(() => {
+    uavs.push({
       uavname: "Desconectar",
-    },
-  ];
+      uavId: 'No Id'
+    })
+  }, [uavs]);
 
   const handleItemClick = (key: string) => {
-    switch (key) {
-      case "new":
-        setButtonText("Pajaro Loco I");
-        break;
-      case "copy":
-        setButtonText("Pajaro Loco II");
-        break;
-      case "delete":
-        setButtonText("SELECT UAV");
-        break;
-      default:
-        break;
+    if (key === 'No Id') {
+      setButtonText('SELECT UAV');
+    } else {
+      setButtonText(key);
+
+      // handle item click
     }
   };
 
@@ -51,13 +35,13 @@ const DropDownButton = ({ uavs }: { uavs: any[] }) => {
           {buttonText}
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Dynamic Actions" items={items}>
+      <DropdownMenu aria-label="Dynamic Actions" items={uavs}>
         {(item) => (
           <DropdownItem
-            key={item.id}
-            color={item.key === "delete" ? "danger" : "default"}
-            className={item.key === "delete" ? "text-danger" : ""}
-            onClick={() => handleItemClick(item.key)}
+            key={item.uavId}
+            color={item.uavId === "No Id" ? "danger" : "default"}
+            className={item.uavId === "No Id" ? "text-danger" : ""}
+            onClick={() => handleItemClick(item.uavId)}
           >
             {item.uavname}
           </DropdownItem>
