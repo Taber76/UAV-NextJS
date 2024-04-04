@@ -9,6 +9,7 @@ const DropDownButton: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: stri
   const handleItemClick = (key: string, value: string, socketId: string) => {
     if (key === 'No Id') {
       setButtonText('SELECT UAV');
+      handleSelectedUav('');
     } else {
       setButtonText(value);
       handleSelectedUav(socketId);

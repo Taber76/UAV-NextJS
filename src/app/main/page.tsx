@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 import { StatusBar, Map } from "../../components";
 import FetchLib from '@/lib/fetch.lib';
 
@@ -16,6 +16,8 @@ export default function Main() {
   }
 
   useEffect(() => {
+    //let socket: Socket;
+    let interval: NodeJS.Timeout
 
     // set socket
     const socketInit = async (id: string) => {
@@ -30,10 +32,12 @@ export default function Main() {
       });
 
       // heartbeat
-      const interval = setInterval(() => {
-        if (uavConnectedSocket)
+      interval = setInterval(() => {
+        if (uavConnectedSocket) {
+          console.log('ping');
           socket.emit('message', 'Beat', uavConnectedSocket);
-      }, 1500);
+        }
+      }, 5000);
     }
 
     // get connected uavs
@@ -54,10 +58,10 @@ export default function Main() {
     getConnectedUavs();
 
     return () => {
-      //clearInterval(interval);
-      //socket.disconnect();
+      clearInterval(interval);
+      // socket.disconnect();
     };
-  }, []);
+  }, [uavConnectedSocket]);
 
   return (
     <div className="mainContainer">
