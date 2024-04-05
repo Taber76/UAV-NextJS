@@ -14,7 +14,7 @@ export default function Main() {
 
   const handleSelectedUav = (uavSocketId: string) => {
     if (uavSocketId !== '') {
-      socket.emit('connectToUav', MsgHandler.outgoing({
+      socket.emit('message', MsgHandler.outgoing({
         type: 'connectToUav',
         username: localStorage.getItem('username') as string,
         userSocket: socket.id
@@ -22,7 +22,7 @@ export default function Main() {
         uavSocketId
       );
     } else {
-      socket.emit('disconnectUav', MsgHandler.outgoing({
+      socket.emit('message', MsgHandler.outgoing({
         type: 'disconnectUav',
         username: localStorage.getItem('username') as string,
         userSocket: socket.id

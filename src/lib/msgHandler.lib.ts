@@ -9,7 +9,7 @@ export default class MsgHandler {
       case 'rejectedConnection':
         // muestro error
         return
-      case 'status':
+      case 'batteryCheck':
         // actualizo el estado del uav
         return
       default:
@@ -26,11 +26,12 @@ export default class MsgHandler {
         })
       case 'disconnectUav':
         return JSON.stringify({
+          uavpass: localStorage.getItem('uavpass'),
           username: data.username,
           userSocket: data.userSocket
         })
       case 'sendCommand':
-        return JSON.stringify(data.commnad)
+        return JSON.stringify({ ...data.commnad, uavpass: localStorage.getItem('uavpass') })
       default:
         break;
     }
