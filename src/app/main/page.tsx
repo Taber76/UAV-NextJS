@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import io, { Socket } from 'socket.io-client';
 import { StatusBar, Map } from "../../components";
 import FetchLib from '@/lib/fetch.lib';
@@ -10,22 +10,22 @@ import './styles.css'
 export default function Main() {
   const [uavs, setUavs] = useState([]);
   const [uavConnectedSocketId, setUavConnectedSocketId] = useState('');
-  let socket: Socket;
+  const socketRef = useRef<Socket | null>(null);
 
   const handleSelectedUav = (uavSocketId: string) => {
-    if (uavSocketId !== '') {
-      socket.emit('message', MsgHandler.outgoing({
+    if (uavSocketId !== '' && socketRef.current) {
+      socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'connectToUav',
         username: localStorage.getItem('username') as string,
-        userSocket: socket.id
+        userSocket: socketRef.current.id
       }),
         uavSocketId
       );
-    } else {
-      socket.emit('message', MsgHandler.outgoing({
+    } else if (socketRef.current) {
+      socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'disconnectUav',
         username: localStorage.getItem('username') as string,
-        userSocket: socket.id
+        userSocket: socketRef.current.id
       }),
         uavSocketId
       );
@@ -39,20 +39,20 @@ export default function Main() {
     // set socket
     const socketInit = async (id: string) => {
       await fetch('/api/socket');
-      socket = io(process.env.SOCKET_IO_URI as string);
-      socket.emit('authenticate', id);
-      socket.on('authenticated', (clientSocketId) => {
+      socketRef.current = io(process.env.SOCKET_IO_URI as string);
+      socketRef.current.emit('authenticate', id);
+      socketRef.current.on('authenticated', (clientSocketId) => {
         localStorage.setItem('clientSocketId', clientSocketId);
       });
-      socket.on('message', (msg, uavConnectedSocket) => {
+      socketRef.current.on('message', (msg, uavConnectedSocket) => {
         console.log('Message received:', msg, ' from: ', uavConnectedSocket);
       });
 
       // heartbeat
       interval = setInterval(() => {
-        if (uavConnectedSocketId) {
+        if (uavConnectedSocketId && socketRef.current) {
           console.log('ping');
-          socket.emit('message', 'Beat', uavConnectedSocketId);
+          socketRef.current.emit('message', 'Beat', uavConnectedSocketId);
         }
       }, 5000);
     }
@@ -76,7 +76,7 @@ export default function Main() {
 
     return () => {
       clearInterval(interval);
-      if (socket) socket.disconnect();
+      if (socketRef.current) socketRef.current.disconnect();
     };
   }, []);
 
@@ -97,6 +97,7 @@ export default function Main() {
     </div>
   )
 }
+
 /*
 
 <div className="horizonContainer">
