@@ -5,9 +5,6 @@ import onlineuavModel from "@/server/models/onlineuav.model";
 import { NextApiResponseServerIO } from "@/types/next";
 import { Server as ServerIO, Socket } from "socket.io";
 import { Server as NetServer } from "http";
-interface UsersDict {
-  [key: string]: string;
-}
 
 export default function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
 
@@ -18,7 +15,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
 
     io.on('connection', (socket) => {
       let authenticated = false;
-      //let socketClientId = '';
 
       socket.on('authenticateuav', async (uavname, password) => {
         const uavId = await uavController.socketLogin(uavname, password);
@@ -36,7 +32,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
       });
 
       socket.on('message', async (msg, socketRecipientId) => {
-        if (!authenticated) return;
+        if (!authenticated) {
+          socket.emit('unauthenticated');
+          return
+        };
         io.to(socketRecipientId).emit('message', msg, socket.id);
       })
 
