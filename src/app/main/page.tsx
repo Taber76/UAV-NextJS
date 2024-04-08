@@ -15,7 +15,7 @@ export default function Main() {
   const handleSelectedUav = (uavSocketId: string) => {
     if (uavSocketId !== '' && socketRef.current) {
       socketRef.current.emit('message', MsgHandler.outgoing({
-        type: 'connectToUav',
+        type: 'connectUav',
         username: localStorage.getItem('username') as string,
         userSocket: socketRef.current.id
       }),
