@@ -31,7 +31,7 @@ export default class MsgHandler {
           userSocket: data.userSocket
         })
       case 'sendCommand':
-        return JSON.stringify({ ...data.commnad, uavpass: localStorage.getItem('uavpass') })
+        return JSON.stringify({ ...data.command, uavpass: localStorage.getItem('uavpass') })
       default:
         break;
     }

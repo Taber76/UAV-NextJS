@@ -13,7 +13,7 @@ export default function Main() {
   const socketRef = useRef<Socket | null>(null);
 
   const handleSelectedUav = (uavSocketId: string) => {
-    if (uavSocketId !== '' && socketRef.current) {
+    if (uavSocketId !== '' && socketRef.current) { // connect to UAV
       socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'connectUav',
         username: localStorage.getItem('username') as string,
@@ -21,7 +21,7 @@ export default function Main() {
       }),
         uavSocketId
       );
-    } else if (socketRef.current) {
+    } else if (socketRef.current) { // disconnect from UAV
       socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'disconnectUav',
         username: localStorage.getItem('username') as string,
@@ -33,28 +33,23 @@ export default function Main() {
     setUavConnectedSocketId(uavSocketId);
   }
 
+  // set socket client ----------------------------------------------------
   useEffect(() => {
-    let interval: NodeJS.Timeout
 
-    // set socket
+    // set socket client
     const socketInit = async (id: string) => {
-      await fetch('/api/socket');
+      await fetch('/api/socket'); // power-on socket in server
       socketRef.current = io(process.env.SOCKET_IO_URI as string);
       socketRef.current.emit('authenticate', id);
       socketRef.current.on('authenticated', (clientSocketId) => {
         localStorage.setItem('clientSocketId', clientSocketId);
       });
+
+      // on message
       socketRef.current.on('message', (msg, uavConnectedSocket) => {
+        MsgHandler.incoming(msg);
         console.log('Message received:', msg, ' from: ', uavConnectedSocket);
       });
-
-      // heartbeat
-      interval = setInterval(() => {
-        if (uavConnectedSocketId && socketRef.current) {
-          console.log('ping');
-          socketRef.current.emit('message', 'Beat', uavConnectedSocketId);
-        }
-      }, 5000);
     }
 
     // get connected uavs
@@ -75,10 +70,31 @@ export default function Main() {
     getConnectedUavs();
 
     return () => {
-      clearInterval(interval);
       if (socketRef.current) socketRef.current.disconnect();
     };
   }, []);
+
+  // heartbeat to UAV ---------------------------------------------------
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    const heartbeat = () => {
+      interval = setInterval(() => {
+        if (uavConnectedSocketId && socketRef.current) {
+          console.log('ping');
+          const msgToUav = {
+            type: "sendCommand",
+            command: { type: "heartbeat" }
+          }
+          socketRef.current.emit('message', MsgHandler.outgoing(msgToUav), uavConnectedSocketId);
+        }
+      }, 5000);
+    }
+
+    heartbeat();
+    return () => {
+      clearInterval(interval);
+    };
+  }, [uavConnectedSocketId])
 
   return (
     <div className="mainContainer">
