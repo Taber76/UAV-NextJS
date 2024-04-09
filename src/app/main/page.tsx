@@ -109,7 +109,6 @@ export default function Main() {
         <Map />
       </div>
 
-
     </div>
   )
 }
