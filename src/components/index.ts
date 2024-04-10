@@ -1,7 +1,6 @@
 export { default as DropDownButton } from "./dropDownButton";
 export { default as HeadingInstrument } from "./headingInstrument";
 export { default as HorizontInstrument } from "./horizontInstrument";
-export { default as Instruments } from "./instruments";
 export { default as LoginForm } from "./loginForm";
 export { default as SimpleModal } from "./simpleModal";
 export { default as StatusBar } from "./statusBar";
