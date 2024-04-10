@@ -29,9 +29,9 @@
   position: absolute;
   z-index: 2;
   right: 0;
-  top: 50px;
+  top: 40px;
   width: 150px;
-  height: 300px;
+  height: 550px;
   display: flex;
   flex-direction: column;
 }

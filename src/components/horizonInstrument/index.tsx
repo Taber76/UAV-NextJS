@@ -1,17 +1,29 @@
 'use client'
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { UavState } from "../../store/uavSlice";
 
 
-const HorizontInstrument = ({ heading }: { heading: number }) => {
+const HorizonInstrument = () => {
   const { width, height } = { width: 150, height: 150 };
   const uavData = useSelector((state: UavState) => state.uavList[0]);
+  const [previousRoll, setPreviousRoll] = useState(0);
+  const [currentRoll, setCurrentRoll] = useState(0);
+  const [previousPitch, setPreviousPitch] = useState(0);
+  const [currentPitch, setCurrentPitch] = useState(0);
+
+  useEffect(() => {
+    setPreviousRoll(currentRoll);
+    setCurrentRoll(uavData.roll || 0);
+    setPreviousPitch(currentPitch);
+    setCurrentPitch(uavData.pitch || 0);
+  }, [uavData.roll, uavData.pitch]);
 
   return (
     <div className="relative w-full h-1/2">
 
-      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${uavData.roll ? uavData.roll : 0}deg)` }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousRoll}deg)`, transition: 'transform 0.5s ease' }}>
         <Image
           src='/instruments/horizon_back.svg'
           className=""
@@ -20,7 +32,7 @@ const HorizontInstrument = ({ heading }: { heading: number }) => {
         />
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `translateY(${uavData.pitch ? uavData.pitch * -3 : 0}px)` }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `translateY(${previousPitch * -1}px) rotate(${previousRoll}deg)`, transition: 'transform 0.5s ease' }}>
         <Image
           src='/instruments/horizon_ball.svg'
           className=""
@@ -60,4 +72,4 @@ const HorizontInstrument = ({ heading }: { heading: number }) => {
   )
 }
 
-export default HorizontInstrument
+export default HorizonInstrument

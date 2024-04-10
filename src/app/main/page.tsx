@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import io, { Socket } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import { addUAV } from '@/store/uavSlice';
-import { HeadingInstrument, HorizontInstrument, StatusBar, Map } from "../../components";
+import { HeadingInstrument, HorizonInstrument, AltitudeInstrument, SpeedInstrument, StatusBar, Map } from "../../components";
 import FetchLib from '@/lib/fetch.lib';
 import MsgHandler from '@/lib/msgHandler.lib';
 
@@ -48,7 +48,6 @@ export default function Main() {
     setUavConnectedSocketId(uavSocketId);
   }
 
-  const heading = Math.random() * 360
 
   // set socket client ----------------------------------------------------
   useEffect(() => {
@@ -127,8 +126,10 @@ export default function Main() {
       </div>
 
       <div className="instrumentsContainer">
-        <HeadingInstrument heading={heading} />
-        <HorizontInstrument heading={heading} />
+        <HeadingInstrument />
+        <HorizonInstrument />
+        <AltitudeInstrument />
+        <SpeedInstrument />
       </div>
 
     </div>
