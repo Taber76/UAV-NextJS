@@ -1,7 +1,9 @@
 'use client'
 import { useEffect, useState, useRef } from 'react'
 import io, { Socket } from 'socket.io-client';
-import { StatusBar, Map } from "../../components";
+import { useDispatch } from 'react-redux';
+import { addUAV } from '@/store/uavSlice';
+import { HeadingInstrument, HorizontInstrument, StatusBar, Map } from "../../components";
 import FetchLib from '@/lib/fetch.lib';
 import MsgHandler from '@/lib/msgHandler.lib';
 
@@ -11,8 +13,9 @@ export default function Main() {
   const [uavs, setUavs] = useState([]);
   const [uavConnectedSocketId, setUavConnectedSocketId] = useState('');
   const socketRef = useRef<Socket | null>(null);
+  const dispatch = useDispatch();
 
-  const handleSelectedUav = (uavSocketId: string) => {
+  const handleSelectedUav = (uavSocketId: string, uavname: string) => {
     if (uavSocketId !== '' && socketRef.current) { // connect to UAV
       socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'connectUav',
@@ -21,6 +24,18 @@ export default function Main() {
       }),
         uavSocketId
       );
+      dispatch(addUAV({
+        uavname: uavname,
+        connected: true,
+        status: 'Connected',
+        socketId: uavSocketId,
+        waypoints: [],
+        position: { lat: 0, lon: 0, alt: 0, relative_alt: 0, hdg: 0 },
+        roll: 0,
+        pitch: 0,
+        speed: null,
+        battery: null
+      }));
     } else if (socketRef.current) { // disconnect from UAV
       socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'disconnectUav',
@@ -32,6 +47,8 @@ export default function Main() {
     }
     setUavConnectedSocketId(uavSocketId);
   }
+
+  const heading = Math.random() * 360
 
   // set socket client ----------------------------------------------------
   useEffect(() => {
@@ -47,7 +64,7 @@ export default function Main() {
 
       // on message
       socketRef.current.on('message', (msg, uavConnectedSocket) => {
-        MsgHandler.incoming(msg);
+        MsgHandler.incoming(msg, dispatch);
         console.log('Message received:', msg, ' from: ', uavConnectedSocket);
       });
     }
@@ -87,7 +104,7 @@ export default function Main() {
           }
           socketRef.current.emit('message', MsgHandler.outgoing(msgToUav), uavConnectedSocketId);
         }
-      }, 5000);
+      }, 1000);
     }
 
     heartbeat();
@@ -107,6 +124,11 @@ export default function Main() {
 
       <div className="mapContainer">
         <Map />
+      </div>
+
+      <div className="instrumentsContainer">
+        <HeadingInstrument heading={heading} />
+        <HorizontInstrument heading={heading} />
       </div>
 
     </div>

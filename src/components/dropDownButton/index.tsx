@@ -3,16 +3,16 @@
 import React, { useState } from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 
-const DropDownButton: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string) => void }> = ({ uavs, handleSelectedUav }) => {
+const DropDownButton: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, uavname: string) => void }> = ({ uavs, handleSelectedUav }) => {
   const [buttonText, setButtonText] = useState('SELECT UAV');
 
   const handleItemClick = (key: string, value: string, socketId: string) => {
     if (key === 'No Id') {
       setButtonText('SELECT UAV');
-      handleSelectedUav('');
+      handleSelectedUav('', '');
     } else {
       setButtonText(value);
-      handleSelectedUav(socketId);
+      handleSelectedUav(socketId, value);
     }
   };
 

@@ -1,7 +1,10 @@
+import { setPosition, setPitchAndRoll } from '@/store/uavSlice';
+
 export default class MsgHandler {
 
-  public static incoming(msg: string) {
+  public static incoming(msg: string, dispatch: any) {
     const msgObj = JSON.parse(msg);
+    /////////// REVISAR guardado en local storage!!!!!
     switch (msgObj.type) {
       case 'acceptedConnection':
         localStorage.setItem('uavpass', msgObj.pass);
@@ -11,6 +14,11 @@ export default class MsgHandler {
         return
       case 'batteryCheck':
         // actualizo el estado del uav
+        return
+      case 'stauts':
+        console.log(msgObj)
+        dispatch(setPosition({ uavIndex: 0, position: { lat: msgObj.lat, lon: msgObj.lon, alt: msgObj.alt, relative_alt: 0, hdg: msgObj.yaw } }))
+        dispatch(setPitchAndRoll({ uavIndex: 0, pitch: msgObj.pitch, roll: msgObj.roll }))
         return
       default:
         break;

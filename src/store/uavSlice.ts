@@ -75,11 +75,11 @@ const uavSlice = createSlice({
       state[uavIndex].status = status;
       state[uavIndex].socketId = socketId;
       state[uavIndex].position = {
-        lat: position.lat / 10000000,
-        lon: position.lon / 10000000,
+        lat: position.lat,
+        lon: position.lon,
         alt: position.alt,
         relative_alt: position.relative_alt,
-        hdg: position.hdg / 100
+        hdg: position.hdg
       };
       state[uavIndex].speed = speed;
       state[uavIndex].battery = battery;
@@ -99,17 +99,17 @@ const uavSlice = createSlice({
     setPosition: (state, action: PayloadAction<{ uavIndex: number; position: Position }>) => {
       const { uavIndex, position } = action.payload;
       state[uavIndex].position = {
-        lat: position.lat / 10000000,
-        lon: position.lon / 10000000,
+        lat: position.lat,
+        lon: position.lon,
         alt: position.alt,
         relative_alt: position.relative_alt,
-        hdg: position.hdg / 100
+        hdg: position.hdg
       };
     },
     setPitchAndRoll: (state, action: PayloadAction<{ uavIndex: number; roll: number; pitch: number }>) => {
       const { uavIndex, roll, pitch } = action.payload;
-      state[uavIndex].roll = roll * (180 / Math.PI);
-      state[uavIndex].pitch = pitch * (180 / Math.PI)
+      state[uavIndex].roll = roll;
+      state[uavIndex].pitch = pitch
     },
     setSpeed: (state, action: PayloadAction<{ uavIndex: number; speed: number | null }>) => {
       const { uavIndex, speed } = action.payload;

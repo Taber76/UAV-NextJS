@@ -6,7 +6,7 @@ import { Button } from "@nextui-org/react";
 import { DropDownButton } from '..';
 import './styles.css';
 
-const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string) => void }> = ({ uavs, handleSelectedUav }) => {
+const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, uavname: string) => void }> = ({ uavs, handleSelectedUav }) => {
   // Estado local para controlar el estado de cada botón
   const [armButtonActive, setArmButtonActive] = useState(false);
   const [takeoffButtonActive, setTakeoffButtonActive] = useState(false);

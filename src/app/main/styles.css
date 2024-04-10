@@ -25,11 +25,15 @@
   bottom: 0;
 }
 
-.horizonContainer {
+.instrumentsContainer {
   position: absolute;
   z-index: 2;
-  left: 0;
-  bottom: 245px;
+  right: 0;
+  top: 50px;
+  width: 150px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .waypointsContainer {
