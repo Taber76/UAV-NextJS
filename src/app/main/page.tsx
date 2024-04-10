@@ -104,7 +104,7 @@ export default function Main() {
           }
           socketRef.current.emit('message', MsgHandler.outgoing(msgToUav), uavConnectedSocketId);
         }
-      }, 1000);
+      }, 10000);
     }
 
     heartbeat();
