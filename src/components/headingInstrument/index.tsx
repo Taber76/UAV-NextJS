@@ -17,7 +17,7 @@ const HeadingInstrument = () => {
 
   return (
     <div className="relative w-full h-1/2">
-      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${-1 * previousHdg}deg)`, transition: 'transform 0.5s ease' }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${-1 * previousHdg}deg)`, transition: 'transform 1.0s ease' }}>
         <Image
           src='/instruments/heading_yaw.svg'
           className=""

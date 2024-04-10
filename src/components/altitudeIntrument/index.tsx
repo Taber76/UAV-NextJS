@@ -37,7 +37,7 @@ const AltitudeInstrument = () => {
         />
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousAltitude * 0.36}deg)`, transition: 'transform 0.5s ease' }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousAltitude * 0.36}deg)`, transition: 'transform 1.0s ease' }}>
         <Image
           src='/instruments/fi_needle_small.svg'
           className=""
@@ -46,7 +46,7 @@ const AltitudeInstrument = () => {
         />
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousAltitude * 3.6 + 90}deg)`, transition: 'transform 0.5s ease' }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousAltitude * 3.6 + 90}deg)`, transition: 'transform 1.0s ease' }}>
         <Image
           src='/instruments/fi_needle.svg'
           className=""

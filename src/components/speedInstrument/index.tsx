@@ -28,7 +28,7 @@ const SpeedInstrument = () => {
         />
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousSpeed + 90}deg)`, transition: 'transform 0.5s ease' }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousSpeed + 90}deg)`, transition: 'transform 1s ease' }}>
         <Image
           src='/instruments/fi_needle.svg'
           className=""
