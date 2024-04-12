@@ -5,6 +5,8 @@ export default class MsgHandler {
   public static incoming(msg: string, dispatch: any) {
     const msgObj = JSON.parse(msg);
     /////////// REVISAR guardado en local storage!!!!!
+
+    console.log(msgObj)
     switch (msgObj.type) {
       case 'acceptedConnection':
         localStorage.setItem('uavpass', msgObj.pass);
