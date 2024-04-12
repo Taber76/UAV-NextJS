@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import { UavState } from "../../store/uavSlice";
+import BatteryGauge from 'react-battery-gauge';
 
 import { DropDownButton } from '..';
 import './styles.css';
@@ -15,7 +16,12 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
   const [landButtonActive, setLandButtonActive] = useState(false);
   const [buttonColor, setButtonColor] = useState<"default" | "success" | "warning" | "primary" | "secondary" | "danger" | undefined>('default');
   const [buttonText, setButtonText] = useState('Default');
+  const [battery, setBattery] = useState(0);
   const uavData = useSelector((state: UavState) => state.uavList[0]);
+
+  useEffect(() => {
+    setBattery(uavData.battery);
+  }, [uavData.battery]);
 
   useEffect(() => {
     switch (uavData.status) {
@@ -109,9 +115,11 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
         </Button>
       </div>
 
-      <div></div>
+      <div className='flex px-4 w-full justify-center items-center gap-2 m-1'>
+      </div>
 
       <div className="flex px-2 w-full justify-end gap-2 m-1">
+
         <DropDownButton
           uavs={uavs}
           handleSelectedUav={handleSelectedUav}
@@ -126,6 +134,47 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
         >
           {buttonText}
         </Button>
+
+        <div className='flex justify-center items-center'>
+
+          <BatteryGauge
+            value={battery}
+            size={120}
+            aspectRatio={0.25}
+            formatValue={value => { return value === 0 ? '-' : `${value}%` }}
+            customization={{
+              batteryBody: {
+                strokeWidth: 2,
+                cornerRadius: 2,
+                fill: 'none',
+                strokeColor: '#7bb4e3'
+              },
+              batteryMeter: {
+                lowBatteryFill: 'red',
+                lowBatteryValue: 20,
+                outerGap: 2,
+                noOfCells: 10,
+              },
+              batteryCap: {
+                fill: 'none',
+                strokeWidth: 4,
+                strokeColor: '#7bb4e3',
+                cornerRadius: 2,
+                capToBodyRatio: 0.4
+              },
+              readingText: {
+                lightContrastColor: '#fff',
+                darkContrastColor: '#fff',
+                lowBatteryColor: 'red',
+                fontFamily: 'Helvetica',
+                fontSize: 14,
+                showPercentage: false,
+              },
+            }}
+          />
+        </div>
+
+
       </div>
 
     </div>

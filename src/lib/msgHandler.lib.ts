@@ -1,15 +1,13 @@
-import { setPosition, setPitchAndRoll } from '@/store/uavSlice';
+import { setPosition, setPitchAndRoll, setSpeed, setBattery } from '@/store/uavSlice';
 
 export default class MsgHandler {
 
   public static incoming(msg: string, dispatch: any) {
     const msgObj = JSON.parse(msg);
-    /////////// REVISAR guardado en local storage!!!!!
 
     switch (msgObj.type) {
       case 'acceptedConnection':
-        console.log('Accepted connection');
-        localStorage.setItem('uavpass', msgObj.pass);
+        localStorage.setItem('uavpass', msgObj.uavpass);
         return;
       case 'rejectedConnection':
         // muestro error
@@ -17,9 +15,11 @@ export default class MsgHandler {
       case 'batteryCheck':
         // actualizo el estado del uav
         return
-      case 'stauts':
+      case 'status':
         dispatch(setPosition({ uavIndex: 0, position: { lat: msgObj.lat, lon: msgObj.lon, alt: msgObj.alt, relative_alt: 0, hdg: msgObj.yaw } }))
         dispatch(setPitchAndRoll({ uavIndex: 0, pitch: msgObj.pitch, roll: msgObj.roll }))
+        dispatch(setSpeed({ uavIndex: 0, speed: msgObj.ground_speed }))
+        dispatch(setBattery({ uavIndex: 0, battery: msgObj.battery_percent }))
         return
       default:
         break;

@@ -23,8 +23,8 @@ export interface UAV {
   position: Position;
   roll: number;
   pitch: number;
-  speed: number | null;
-  battery: number | null;
+  speed: number;
+  battery: number;
   waypoints: Waypoint[];
 }
 
@@ -47,8 +47,8 @@ const initialState: UAV[] =
     },
     roll: 0,
     pitch: 0,
-    speed: null,
-    battery: null,
+    speed: 0,
+    battery: 100,
     waypoints: []
   }]
   ;
@@ -69,7 +69,7 @@ const uavSlice = createSlice({
     connecting: (state, action: PayloadAction<number>) => {
       state[action.payload].status = 'Connecting...';
     },
-    connected: (state, action: PayloadAction<{ uavIndex: number; status: string; socketId: string; position: Position; speed: number | null; battery: number | null; waypoints: Waypoint[] }>) => {
+    connected: (state, action: PayloadAction<{ uavIndex: number; status: string; socketId: string; position: Position; speed: number; battery: number; waypoints: Waypoint[] }>) => {
       const { uavIndex, status, socketId, position, speed, battery, waypoints } = action.payload;
       state[uavIndex].connected = true;
       state[uavIndex].status = status;
@@ -111,11 +111,11 @@ const uavSlice = createSlice({
       state[uavIndex].roll = roll;
       state[uavIndex].pitch = pitch
     },
-    setSpeed: (state, action: PayloadAction<{ uavIndex: number; speed: number | null }>) => {
+    setSpeed: (state, action: PayloadAction<{ uavIndex: number; speed: number }>) => {
       const { uavIndex, speed } = action.payload;
       state[uavIndex].speed = speed;
     },
-    setBattery: (state, action: PayloadAction<{ uavIndex: number; battery: number | null }>) => {
+    setBattery: (state, action: PayloadAction<{ uavIndex: number; battery: number }>) => {
       const { uavIndex, battery } = action.payload;
       state[uavIndex].battery = battery;
     },
