@@ -23,7 +23,7 @@ const HorizonInstrument = () => {
   return (
     <div className="relative w-full h-1/2">
 
-      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousRoll}deg)`, transition: 'transform 1.0s ease' }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `rotate(${previousRoll}deg)`, transition: 'transform 0.2s ease' }}>
         <Image
           src='/instruments/horizon_back.svg'
           className=""
@@ -32,7 +32,7 @@ const HorizonInstrument = () => {
         />
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `translateY(${previousPitch * -1}px) rotate(${previousRoll}deg)`, transition: 'transform 1.0s ease' }}>
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transform: `translateY(${previousPitch * -1}px) rotate(${previousRoll}deg)`, transition: 'transform 0.2s ease' }}>
         <Image
           src='/instruments/horizon_ball.svg'
           className=""

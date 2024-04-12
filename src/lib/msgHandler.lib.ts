@@ -6,9 +6,9 @@ export default class MsgHandler {
     const msgObj = JSON.parse(msg);
     /////////// REVISAR guardado en local storage!!!!!
 
-    console.log(msgObj)
     switch (msgObj.type) {
       case 'acceptedConnection':
+        console.log('Accepted connection');
         localStorage.setItem('uavpass', msgObj.pass);
         return;
       case 'rejectedConnection':
@@ -18,7 +18,6 @@ export default class MsgHandler {
         // actualizo el estado del uav
         return
       case 'stauts':
-        console.log(msgObj)
         dispatch(setPosition({ uavIndex: 0, position: { lat: msgObj.lat, lon: msgObj.lon, alt: msgObj.alt, relative_alt: 0, hdg: msgObj.yaw } }))
         dispatch(setPitchAndRoll({ uavIndex: 0, pitch: msgObj.pitch, roll: msgObj.roll }))
         return
