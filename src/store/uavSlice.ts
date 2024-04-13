@@ -48,7 +48,7 @@ const initialState: UAV[] =
     roll: 0,
     pitch: 0,
     speed: 0,
-    battery: 100,
+    battery: 0,
     waypoints: []
   }]
   ;

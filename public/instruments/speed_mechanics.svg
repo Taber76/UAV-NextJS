@@ -1,61 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="400.667px" height="400.666px" viewBox="0 0 400.667 400.666" enable-background="new 0 0 400.667 400.666"
-	 xml:space="preserve">
-<circle fill="#232323" cx="200.333" cy="200" r="161"/>
-<path fill="none" stroke="#F9FF00" stroke-width="10" stroke-miterlimit="10" d="M57.4,175.086
-	C43.974,251.226,91.471,314.98,149.825,336"/>
-<path fill="none" stroke="#FF0000" stroke-width="10" stroke-miterlimit="10" d="M106.854,89.039
-	c-28.113,23.588-44.001,55.344-49.512,86.375"/>
-<path fill="none" stroke="#007511" stroke-width="10" stroke-miterlimit="10" d="M151.628,336.661
-	c40.369,14.45,85.524,10.282,121.509-10.494c62.801-36.257,97.126-122.438,53.195-198.528"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="296.814" y1="85.02" x2="281.752" y2="102.968"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="310.03" y1="136.667" x2="330.321" y2="124.953"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="348.149" y1="173.938" x2="325.076" y2="178.006"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="348.149" y1="226.065" x2="325.076" y2="221.997"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="330.32" y1="275.05" x2="310.03" y2="263.336"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="296.812" y1="314.982" x2="281.752" y2="297.035"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="251.667" y1="341.046" x2="243.655" y2="319.031"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="200.331" y1="350.098" x2="200.332" y2="326.67"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="148.995" y1="341.045" x2="157.008" y2="319.03"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="103.85" y1="314.98" x2="118.911" y2="297.034"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="70.343" y1="275.047" x2="90.633" y2="263.334"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="52.515" y1="226.063" x2="75.588" y2="221.995"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="52.516" y1="173.934" x2="75.588" y2="178.004"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="70.346" y1="124.949" x2="90.635" y2="136.666"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="103.854" y1="85.018" x2="118.912" y2="102.967"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="315.313" y1="103.523" x2="303.075" y2="113.797"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="251.669" y1="58.956" x2="243.655" y2="80.973"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="275.381" y1="70.017" x2="267.395" y2="83.855"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" x1="200.333" y1="49.904" x2="200.333" y2="73.334"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="226.398" y1="52.188" x2="223.626" y2="67.923"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="213.417" y1="50.478" x2="212.444" y2="61.619"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="239.182" y1="55.021" x2="236.289" y2="65.824"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="263.767" y1="63.969" x2="259.042" y2="74.105"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="286.424" y1="77.05" x2="280.01" y2="86.212"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="341.376" y1="148.667" x2="326.362" y2="154.136"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="350.427" y1="200.002" x2="334.448" y2="200.006"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="341.375" y1="251.337" x2="326.358" y2="245.876"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="315.312" y1="296.48" x2="303.067" y2="286.213"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="275.38" y1="329.987" x2="267.385" y2="316.15"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="226.396" y1="347.816" x2="223.615" y2="332.079"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="174.268" y1="347.816" x2="177.038" y2="332.077"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="125.284" y1="329.988" x2="133.27" y2="316.145"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="85.351" y1="296.481" x2="97.59" y2="286.203"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="59.287" y1="251.337" x2="74.303" y2="245.864"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="50.235" y1="200" x2="66.217" y2="199.994"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="59.287" y1="148.664" x2="74.307" y2="154.125"/>
-<line fill="none" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" x1="85.351" y1="103.52" x2="97.598" y2="113.788"/>
-<text transform="matrix(1 0 0 1 257.6592 123.6489)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">20</text>
-<text transform="matrix(1 0 0 1 292.1592 187.1489)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">40</text>
-<text transform="matrix(1 0 0 1 267.3848 263.3359)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">60</text>
-<text transform="matrix(1 0 0 1 225.0059 302.1489)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">80</text>
-<text transform="matrix(1 0 0 1 153.0015 302.1489)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">100</text>
-<text transform="matrix(1 0 0 1 107.1592 256.6489)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">120</text>
-<text transform="matrix(1 0 0 1 91.4746 184.6489)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">140</text>
-<text transform="matrix(1 0 0 1 125.2837 123.6489)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">160</text>
-<text transform="matrix(1 0 0 1 175.3799 242.1895)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="14">KNOTS</text>
-<text transform="matrix(1 0 0 1 161.3086 165.1895)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="14">AIR SPEED</text>
-<text transform="matrix(1 0 0 1 194.6592 99.6489)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.5" stroke-miterlimit="10" font-family="sans-serif" font-size="20">0</text>
+<?xml version="1.0"?>
+<svg width="400.667" height="400.666" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" enable-background="new 0 0 400.667 400.666" version="1.1" xml:space="preserve">
+ <g class="layer">
+  <title>Layer 1</title>
+  <circle cx="200.33" cy="200" fill="#232323" id="svg_1" r="161" transform="matrix(1 0 0 1 0 0)"/>
+  <path d="m57.4,175.09c-13.43,76.14 34.07,139.89 92.42,160.91" fill="none" id="svg_2" stroke="#F9FF00" stroke-miterlimit="10" stroke-width="10"/>
+  <path d="m106.85,89.04c-28.11,23.59 -44,55.34 -49.51,86.37" fill="none" id="svg_3" stroke="#FF0000" stroke-miterlimit="10" stroke-width="10"/>
+  <path d="m151.63,336.66c40.37,14.45 85.52,10.28 121.51,-10.49c62.8,-36.26 97.12,-122.44 53.19,-198.53" fill="none" id="svg_4" stroke="#007511" stroke-miterlimit="10" stroke-width="10"/>
+  <line fill="none" id="svg_5" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="296.81" x2="281.75" y1="85.02" y2="102.97"/>
+  <line fill="none" id="svg_6" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="310.03" x2="330.32" y1="136.67" y2="124.95"/>
+  <line fill="none" id="svg_7" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="348.15" x2="325.08" y1="173.94" y2="178.01"/>
+  <line fill="none" id="svg_8" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="348.15" x2="325.08" y1="226.06" y2="222"/>
+  <line fill="none" id="svg_9" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="330.32" x2="310.03" y1="275.05" y2="263.34"/>
+  <line fill="none" id="svg_10" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="296.81" x2="281.75" y1="314.98" y2="297.04"/>
+  <line fill="none" id="svg_11" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="251.67" x2="243.66" y1="341.05" y2="319.03"/>
+  <line fill="none" id="svg_12" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="200.33" x2="200.33" y1="350.1" y2="326.67"/>
+  <line fill="none" id="svg_13" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="149" x2="157.01" y1="341.05" y2="319.03"/>
+  <line fill="none" id="svg_14" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="103.85" x2="118.91" y1="314.98" y2="297.03"/>
+  <line fill="none" id="svg_15" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="70.34" x2="90.63" y1="275.05" y2="263.33"/>
+  <line fill="none" id="svg_16" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="52.52" x2="75.59" y1="226.06" y2="222"/>
+  <line fill="none" id="svg_17" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="52.52" x2="75.59" y1="173.93" y2="178"/>
+  <line fill="none" id="svg_18" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="70.35" x2="90.64" y1="124.95" y2="136.67"/>
+  <line fill="none" id="svg_19" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="103.85" x2="118.91" y1="85.02" y2="102.97"/>
+  <line fill="none" id="svg_20" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="315.31" x2="303.07" y1="103.52" y2="113.8"/>
+  <line fill="none" id="svg_21" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="251.67" x2="243.66" y1="58.96" y2="80.97"/>
+  <line fill="none" id="svg_22" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="275.38" x2="267.39" y1="70.02" y2="83.86"/>
+  <line fill="none" id="svg_23" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="4" x1="200.33" x2="200.33" y1="49.9" y2="73.33"/>
+  <line fill="none" id="svg_24" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="226.4" x2="223.63" y1="52.19" y2="67.92"/>
+  <line fill="none" id="svg_25" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="213.42" x2="212.44" y1="50.48" y2="61.62"/>
+  <line fill="none" id="svg_26" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="239.18" x2="236.29" y1="55.02" y2="65.82"/>
+  <line fill="none" id="svg_27" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="263.77" x2="259.04" y1="63.97" y2="74.11"/>
+  <line fill="none" id="svg_28" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="286.42" x2="280.01" y1="77.05" y2="86.21"/>
+  <line fill="none" id="svg_29" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="341.38" x2="326.36" y1="148.67" y2="154.14"/>
+  <line fill="none" id="svg_30" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="350.43" x2="334.45" y1="200" y2="200.01"/>
+  <line fill="none" id="svg_31" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="341.38" x2="326.36" y1="251.34" y2="245.88"/>
+  <line fill="none" id="svg_32" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="315.31" x2="303.07" y1="296.48" y2="286.21"/>
+  <line fill="none" id="svg_33" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="275.38" x2="267.38" y1="329.99" y2="316.15"/>
+  <line fill="none" id="svg_34" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="226.4" x2="223.62" y1="347.82" y2="332.08"/>
+  <line fill="none" id="svg_35" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="174.27" x2="177.04" y1="347.82" y2="332.08"/>
+  <line fill="none" id="svg_36" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="125.28" x2="133.27" y1="329.99" y2="316.14"/>
+  <line fill="none" id="svg_37" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="85.35" x2="97.59" y1="296.48" y2="286.2"/>
+  <line fill="none" id="svg_38" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="59.29" x2="74.3" y1="251.34" y2="245.86"/>
+  <line fill="none" id="svg_39" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="50.23" x2="66.22" y1="200" y2="199.99"/>
+  <line fill="none" id="svg_40" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="59.29" x2="74.31" y1="148.66" y2="154.13"/>
+  <line fill="none" id="svg_41" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="2" x1="85.35" x2="97.6" y1="103.52" y2="113.79"/>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_42" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 257.6592 123.6489)">20</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_43" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 292.1592 187.1489)">40</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_44" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 267.3848 263.3359)">60</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_45" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 225.0059 302.1489)">80</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_46" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 153.0015 302.1489)">100</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_47" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 107.1592 256.6489)">120</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_48" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 91.4746 184.6489)">140</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_49" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 125.2837 123.6489)">160</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="14" id="svg_50" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 175.38 242.189)" x="6.68" y="-2.5">KM / H</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="14" id="svg_51" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 0 0) matrix(1 0 0 1 161.309 165.189)" x="-14.19" y="-1.67">GROUND SPEED</text>
+  <text fill="#FFFFFF" font-family="sans-serif" font-size="20" id="svg_52" stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="0.5" transform="matrix(1 0 0 1 194.6592 99.6489)">0</text>
+ </g>
 </svg>

@@ -33,8 +33,8 @@ export default function Main() {
         position: { lat: 0, lon: 0, alt: 0, relative_alt: 0, hdg: 0 },
         roll: 0,
         pitch: 0,
-        speed: null,
-        battery: null
+        speed: 0,
+        battery: 0
       }));
     } else if (socketRef.current) { // disconnect from UAV
       socketRef.current.emit('message', MsgHandler.outgoing({
