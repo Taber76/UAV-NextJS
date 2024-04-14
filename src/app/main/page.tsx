@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import io, { Socket } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import { addUAV } from '@/store/uavSlice';
-import { HeadingInstrument, HorizonInstrument, AltitudeInstrument, SpeedInstrument, StatusBar, Map } from "../../components";
+import { HeadingInstrument, HorizonInstrument, AltitudeInstrument, SpeedInstrument, StatusBar, Map, WaypointsList } from "../../components";
 import FetchLib from '@/lib/fetch.lib';
 import MsgHandler from '@/lib/msgHandler.lib';
 
@@ -114,17 +114,27 @@ export default function Main() {
 
   return (
     <div className="mainContainer">
+
+      {/*Status Bar*/}
       <div className="statusBarContainer">
         <StatusBar
           uavs={uavs}
           handleSelectedUav={handleSelectedUav}
+          socketRef={socketRef}
         />
       </div>
 
+      {/*Map*/}
       <div className="mapContainer">
         <Map />
       </div>
 
+      {/*Waypoints List*/}
+      <div className="waypointsContainer">
+        <WaypointsList />
+      </div>
+
+      {/*Instruments*/}
       <div className="instrumentsContainer">
         <HeadingInstrument />
         <HorizonInstrument />

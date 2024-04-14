@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "Socket Server",
     "All project",
-    "Instruments"
+    "Instruments",
+    "Waypoints"
   ]
 }

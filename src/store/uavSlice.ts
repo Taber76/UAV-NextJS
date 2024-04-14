@@ -39,8 +39,8 @@ const initialState: UAV[] =
     status: 'Disconnected',
     socketId: null,
     position: {
-      lat: 0,
-      lon: 0,
+      lat: -32.7983559,
+      lon: -55.9612037,
       alt: 0,
       relative_alt: 0,
       hdg: 0
@@ -85,8 +85,9 @@ const uavSlice = createSlice({
       state[uavIndex].battery = battery;
       state[uavIndex].waypoints = waypoints.length === 0 ? [{ lat: position.lat / 10000000, lon: position.lon / 10000000, alt: 50, dist: 0 }] : waypoints;
     },
-    arm: (state, action: PayloadAction<number>) => {
-      state[action.payload].status = 'Armed';
+    rejectedConnection: (state, action: PayloadAction<number>) => {
+      state[action.payload].status = 'Connection rejected';
+      state[action.payload].connected = false;
     },
     disconnect: (state, action: PayloadAction<number>) => {
       state[action.payload].uavname = 'Unselected';
@@ -95,6 +96,10 @@ const uavSlice = createSlice({
     },
     setSocketId: (state, action: PayloadAction<{ uavIndex: number; socketId: string }>) => {
       state[action.payload.uavIndex].socketId = action.payload.socketId;
+    },
+    setStatus: (state, action: PayloadAction<{ uavIndex: number; status: string }>) => {
+      const { uavIndex, status } = action.payload;
+      state[uavIndex].status = status;
     },
     setPosition: (state, action: PayloadAction<{ uavIndex: number; position: Position }>) => {
       const { uavIndex, position } = action.payload;
@@ -121,8 +126,11 @@ const uavSlice = createSlice({
     },
     addWaypoint: (state, action: PayloadAction<{ uavIndex: number; waypoint: [number, number] }>) => {
       const { uavIndex, waypoint } = action.payload;
-      const prevWaypoint = state[uavIndex].waypoints[state[uavIndex].waypoints.length - 1];
-      const distance = calculateDistance(prevWaypoint.lat, prevWaypoint.lon, waypoint[0], waypoint[1]);
+      let distance = 0
+      if (state[uavIndex].waypoints.length > 0) {
+        const prevWaypoint = state[uavIndex].waypoints[state[uavIndex].waypoints.length - 1];
+        distance = calculateDistance(prevWaypoint.lat, prevWaypoint.lon, waypoint[0], waypoint[1]);
+      }
       const newWaypoint: Waypoint = {
         lat: waypoint[0],
         lon: waypoint[1],
@@ -145,7 +153,7 @@ const uavSlice = createSlice({
   },
 });
 
-export const { addUAV, removeUAV, select, connecting, connected, arm, disconnect, setSocketId, setPosition, setPitchAndRoll, setSpeed, setBattery, addWaypoint, removeWaypoint } = uavSlice.actions;
+export const { addUAV, removeUAV, select, connecting, connected, rejectedConnection, disconnect, setSocketId, setStatus, setPosition, setPitchAndRoll, setSpeed, setBattery, addWaypoint, removeWaypoint } = uavSlice.actions;
 export default uavSlice.reducer;
 
 // Funciones auxiliares

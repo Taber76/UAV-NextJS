@@ -39,6 +39,8 @@
 .waypointsContainer {
   position: absolute;
   z-index: 3;
-  right: 0;
-  bottom: 0;
+  right: 180px;
+  top: 50px;
+  display: flex;
+  flex-direction: column
 }

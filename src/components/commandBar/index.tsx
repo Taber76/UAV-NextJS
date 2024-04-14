@@ -4,19 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { Button } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import { UavState } from "../../store/uavSlice";
+import BatteryGauge from 'react-battery-gauge';
 
-import { DropDownButton, BatteryInstrument } from '..';
-import MsgHandler from '../../lib/msgHandler.lib';
+import { DropDownButton } from '..';
 import './styles.css';
 
-const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, uavname: string) => void; socketRef: any }> = ({ uavs, handleSelectedUav, socketRef }) => {
+const CommandBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, uavname: string) => void }> = ({ uavs, handleSelectedUav }) => {
   // Estado local para controlar el estado de cada botón
   const [armButtonActive, setArmButtonActive] = useState(false);
-  const [armButtonText, setArmButtonText] = useState('ARM');
   const [takeoffButtonActive, setTakeoffButtonActive] = useState(false);
   const [landButtonActive, setLandButtonActive] = useState(false);
   const [buttonColor, setButtonColor] = useState<"default" | "success" | "warning" | "primary" | "secondary" | "danger" | undefined>('default');
-  const [buttonVariant, setButtonVariant] = useState<"solid" | "faded" | undefined>('faded');
   const [buttonText, setButtonText] = useState('Default');
   const [battery, setBattery] = useState(0);
   const uavData = useSelector((state: UavState) => state.uavList[0]);
@@ -28,37 +26,25 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
   useEffect(() => {
     switch (uavData.status) {
       case 'Disconnected':
-        setButtonVariant('faded');
         setButtonColor('default');
         setButtonText('DISCONNECTED');
-        break
+        break;
       case 'Connected':
-        setButtonVariant('solid');
         setButtonColor('success');
         setButtonText('CONNECTED');
-        setArmButtonActive(true);
-        break
+        break;
       case 'Armed':
         setButtonColor('warning');
         setButtonText('ARMED');
-        setTakeoffButtonActive(true);
-        setArmButtonText('DISARM');
-        break
+        break;
       case 'Takeoff':
         setButtonColor('warning');
         setButtonText('TAKEOFF');
-        setArmButtonActive(false);
-        break
-      case 'Flying':
-        setButtonColor('warning');
-        setButtonText('FLYING');
-        setLandButtonActive(true);
-        break
+        break;
       case 'Landing':
         setButtonColor('warning');
         setButtonText('LANDING');
-        setLandButtonActive(false);
-        break
+        break;
       default:
         setButtonColor('default');
         setButtonText('DEFAULT');
@@ -69,106 +55,71 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
 
   // Funciones de manejo de eventos para cada botón
   const handleArmButtonClick = () => {
-    if (uavData.status === 'Connected') {
-      const msgToUav = MsgHandler.outgoing({
-        type: 'sendCommand',
-        command: {
-          command: 'arm'
-        }
-      })
-      socketRef.current?.emit('message', msgToUav, uavData.socketId);
-    } else if (uavData.status === 'Armed') {
-      const msgToUav = MsgHandler.outgoing({
-        type: 'sendCommand',
-        command: {
-          command: 'disarm'
-        }
-      })
-      socketRef.current?.emit('message', msgToUav, uavData.socketId);
-    }
+    // Lógica para activar/desactivar el botón
+    setArmButtonActive(!armButtonActive);
+    // Otras acciones que quieras realizar
   };
 
   const handleTakeoffButtonClick = () => {
-    if (uavData.status === 'Armed') {
-      const msgToUav = MsgHandler.outgoing({
-        type: 'sendCommand',
-        command: {
-          command: 'takeoff'
-        }
-      })
-      socketRef.current?.emit('message', msgToUav, uavData.socketId);
-    }
+    // Lógica para activar/desactivar el botón
+    setTakeoffButtonActive(!takeoffButtonActive);
+    // Otras acciones que quieras realizar
   };
 
   const handleLandButtonClick = () => {
-    if (uavData.status === 'Flying') {
-      const msgToUav = MsgHandler.outgoing({
-        type: 'sendCommand',
-        command: {
-          command: 'land'
-        }
-      })
-      socketRef.current?.emit('message', msgToUav, uavData.socketId);
-    }
+    // Lógica para activar/desactivar el botón
+    setLandButtonActive(!landButtonActive);
+    // Otras acciones que quieras realizar
   };
+
 
 
   return (
     <div className='statusBar'>
-
-      {/* Buttons container */}
       <div className="flex px-4 w-full justify-left gap-2 m-1">
 
         {/* Botón de Arm */}
         <Button
           size='sm'
-          variant='solid'
-          color={armButtonActive ? "success" : "default"}
+          variant='ghost'
+          color={armButtonActive ? "success" : "warning"}
           onClick={handleArmButtonClick}
           disabled={!armButtonActive}
           className={armButtonActive ? '' : 'disabled'}
-          fullWidth={true}
         >
-          {armButtonText}
+          Arm
         </Button>
 
         {/* Botón de Takeoff */}
         <Button
           size='sm'
-          variant='solid'
-          color={takeoffButtonActive ? "success" : "default"}
+          variant='ghost'
+          color={takeoffButtonActive ? "success" : "warning"}
           onClick={handleTakeoffButtonClick}
           disabled={!takeoffButtonActive}
           className={takeoffButtonActive ? '' : 'disabled'}
-          fullWidth={true}
         >
-          TAKEOFF
+          Takeoff
         </Button>
 
         {/* Botón de Land */}
         <Button
           size='sm'
-          variant='solid'
-          color={landButtonActive ? "success" : "default"}
+          variant='ghost'
+          color={landButtonActive ? "success" : "warning"}
           onClick={handleLandButtonClick}
           disabled={!landButtonActive}
           className={landButtonActive ? '' : 'disabled'}
-          fullWidth={true}
         >
-          LAND
+          Land
         </Button>
-
       </div>
 
-      {/* Messagges container */}
       <div className='flex px-4 w-full justify-center items-center gap-2 m-1'>
       </div>
 
-
-      {/* Dropdown de Uavs, Botón de Status y Batería */}
       <div className="flex px-2 w-full justify-end gap-2 m-1">
 
-        {/* Dropdown de Uavs */}
         <DropDownButton
           uavs={uavs}
           handleSelectedUav={handleSelectedUav}
@@ -177,16 +128,50 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
         {/* Botón de Status */}
         <Button
           size='sm'
-          variant={buttonVariant}
+          variant='faded'
           color={buttonColor}
           isDisabled
         >
           {buttonText}
         </Button>
 
-        {/* Batería */}
         <div className='flex justify-center items-center'>
-          <BatteryInstrument battery={battery} />
+
+          <BatteryGauge
+            value={battery}
+            size={120}
+            aspectRatio={0.25}
+            formatValue={value => { return value === 0 ? '-' : `${value}%` }}
+            customization={{
+              batteryBody: {
+                strokeWidth: 2,
+                cornerRadius: 2,
+                fill: 'none',
+                strokeColor: '#7bb4e3'
+              },
+              batteryMeter: {
+                lowBatteryFill: 'red',
+                lowBatteryValue: 20,
+                outerGap: 2,
+                noOfCells: 10,
+              },
+              batteryCap: {
+                fill: 'none',
+                strokeWidth: 4,
+                strokeColor: '#7bb4e3',
+                cornerRadius: 2,
+                capToBodyRatio: 0.4
+              },
+              readingText: {
+                lightContrastColor: '#fff',
+                darkContrastColor: '#fff',
+                lowBatteryColor: 'red',
+                fontFamily: 'Helvetica',
+                fontSize: 14,
+                showPercentage: false,
+              },
+            }}
+          />
         </div>
 
 
@@ -196,4 +181,4 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
   );
 };
 
-export default StatusBar;
+export default CommandBar;

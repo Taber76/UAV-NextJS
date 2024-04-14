@@ -1,4 +1,4 @@
-import { setPosition, setPitchAndRoll, setSpeed, setBattery } from '@/store/uavSlice';
+import { rejectedConnection, setStatus, setPitchAndRoll, setPosition, setSpeed, setBattery } from '@/store/uavSlice';
 
 export default class MsgHandler {
 
@@ -8,19 +8,35 @@ export default class MsgHandler {
     switch (msgObj.type) {
       case 'acceptedConnection':
         localStorage.setItem('uavpass', msgObj.uavpass);
-        return;
+        break;
       case 'rejectedConnection':
+        dispatch(rejectedConnection(0))
         // muestro error
-        return
-      case 'batteryCheck':
-        // actualizo el estado del uav
-        return
+        break
       case 'status':
         dispatch(setPosition({ uavIndex: 0, position: { lat: msgObj.lat, lon: msgObj.lon, alt: msgObj.alt, relative_alt: 0, hdg: msgObj.yaw } }))
         dispatch(setPitchAndRoll({ uavIndex: 0, pitch: msgObj.pitch, roll: msgObj.roll }))
         dispatch(setSpeed({ uavIndex: 0, speed: msgObj.ground_speed }))
         dispatch(setBattery({ uavIndex: 0, battery: msgObj.battery_percent }))
-        return
+        break
+      case 'armed':
+        dispatch(setStatus({ uavIndex: 0, status: 'Armed' }))
+        break
+      case 'disarmed':
+        dispatch(setStatus({ uavIndex: 0, status: 'Connected' }))
+        break
+      case 'accepted_takeoff':
+        dispatch(setStatus({ uavIndex: 0, status: 'Takeoff' }))
+        break
+      case 'flying':
+        dispatch(setStatus({ uavIndex: 0, status: 'Flying' }))
+        break
+      case 'accepted_land':
+        dispatch(setStatus({ uavIndex: 0, status: 'Landing' }))
+        break
+      case 'landed':
+        dispatch(setStatus({ uavIndex: 0, status: 'Connected' }))
+        break
       default:
         break;
     }
