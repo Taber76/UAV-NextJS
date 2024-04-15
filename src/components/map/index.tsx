@@ -28,8 +28,9 @@ const MapComponent = () => {
   const dispatch = useDispatch();
   const uavData = useSelector((state: UavState) => state.uavList[0]);
 
-  // Draw uav marker first time -------------------------------------------------
+  // Center map on UAV -------------------------------------------------
   useEffect(() => {
+    console.log(uavData.position.lat, uavData.position.lon, 'posicion del mapa');
     if (mapRef.current && uavData.connected) {
       const map = mapRef.current;
       const newPosition = L.latLng(uavData.position.lat, uavData.position.lon);
@@ -39,6 +40,7 @@ const MapComponent = () => {
 
   // Update uav marker position -------------------------------------------------
   useEffect(() => {
+    console.log(uavData.position.lat, uavData.position.lon, 'posicion del marker');
     if (uavMarkRef.current && uavData.connected) {
       const uav = uavMarkRef.current;
       const newPosition = L.latLng(uavData.position.lat, uavData.position.lon);
