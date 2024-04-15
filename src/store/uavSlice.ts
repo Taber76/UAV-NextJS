@@ -61,7 +61,7 @@ const uavSlice = createSlice({
   initialState,
   reducers: {
     addUAV: (state, action: PayloadAction<UAV>) => {
-      state.push(action.payload);
+      state[0] = action.payload;
     },
     removeUAV: (state, action: PayloadAction<string>) => {
       state = state.filter(uav => uav.uavname !== action.payload);
