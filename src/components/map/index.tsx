@@ -28,33 +28,26 @@ const MapComponent = () => {
   const dispatch = useDispatch();
   const uavData = useSelector((state: UavState) => state.uavList[0]);
 
-  // Center map on UAV -------------------------------------------------
+  // Center map on UAV conection -------------------------------------------------
   useEffect(() => {
-    if (mapRef.current) {// && uavData.connected) {
-      const lat = uavData.position.lat !== 0 ? uavData.position.lat : -32.7983559;
-      const lon = uavData.position.lon !== 0 ? uavData.position.lon : -55.9612037;
+    if (mapRef.current && uavData.connected) {
       const map = mapRef.current;
-      console.log('lat', lat, 'lon', lon)
-      console.log('map', map)
-      const newPosition = L.latLng(-30, -50);
-      console.log('newPosition', newPosition)
+      const newPosition = L.latLng(uavData.position.lat, uavData.position.lon);
       map.flyTo(newPosition, map.getZoom(), { animate: true });
-
     }
+  }, [uavData.connected, mapRef.current]);
 
-    //}, [uavData.connected]);
-  }, [mapRef.current]);
 
   // Update uav marker position -------------------------------------------------
-  /* useEffect(() => {
-     if (uavMarkRef.current && uavData.connected) {
-       const uav = uavMarkRef.current;
-       const newPosition = L.latLng(uavData.position.lat, uavData.position.lon);
-       uav.setLatLng(newPosition);
-       uav.setRotationAngle(uavData.position.hdg);
-     }
-   }, [uavData.position]);
- */
+  useEffect(() => {
+    if (uavMarkRef.current && uavData.connected) {
+      const uav = uavMarkRef.current;
+      const newPosition = L.latLng(uavData.position.lat, uavData.position.lon);
+      uav.setLatLng(newPosition);
+      uav.setRotationAngle(uavData.position.hdg);
+    }
+  }, [uavData.position]);
+
 
   return (
     <MapContainer
