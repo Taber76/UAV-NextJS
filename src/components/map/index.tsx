@@ -34,23 +34,22 @@ const MapComponent = () => {
       const lat = uavData.position.lat !== 0 ? uavData.position.lat : -32.7983559;
       const lon = uavData.position.lon !== 0 ? uavData.position.lon : -55.9612037;
       const map = mapRef.current;
-      const newPosition = L.latLng(lat, lon);
-      map.setView(newPosition, map.getZoom(), { animate: true });
+      //const newPosition = L.latLng(lat, lon);
+      //map.setView(newPosition, map.getZoom(), { animate: true });
+      map.setView([lat, lon], 7);
     }
   }, [uavData.connected]);
 
   // Update uav marker position -------------------------------------------------
-  useEffect(() => {
-    if (uavMarkRef.current && uavData.connected) {
-      const lat = uavData.position.lat !== 0 ? uavData.position.lat : -32.7983559;
-      const lon = uavData.position.lon !== 0 ? uavData.position.lon : -55.9612037;
-      const uav = uavMarkRef.current;
-      const newPosition = L.latLng(lat, lon);
-      uav.setLatLng(newPosition);
-      uav.setRotationAngle(uavData.position.hdg);
-    }
-  }, [uavData.position]);
-
+  /* useEffect(() => {
+     if (uavMarkRef.current && uavData.connected) {
+       const uav = uavMarkRef.current;
+       const newPosition = L.latLng(uavData.position.lat, uavData.position.lon);
+       uav.setLatLng(newPosition);
+       uav.setRotationAngle(uavData.position.hdg);
+     }
+   }, [uavData.position]);
+ */
 
   return (
     <MapContainer
