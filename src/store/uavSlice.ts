@@ -9,6 +9,7 @@ export interface Position {
 }
 
 export interface Waypoint {
+  type: string;  // 'waypoint' | 'takeoff' | 'land'
   lat: number;
   lon: number;
   alt: number;
@@ -26,6 +27,7 @@ export interface UAV {
   speed: number;
   battery: number;
   waypoints: Waypoint[];
+  reachedWaypoints: Waypoint[];
 }
 
 export interface UavState {
@@ -49,7 +51,8 @@ const initialState: UAV[] =
     pitch: 0,
     speed: 0,
     battery: 0,
-    waypoints: []
+    waypoints: [],
+    reachedWaypoints: []
   }]
   ;
 
@@ -83,7 +86,7 @@ const uavSlice = createSlice({
       };
       state[uavIndex].speed = speed;
       state[uavIndex].battery = battery;
-      state[uavIndex].waypoints = waypoints.length === 0 ? [{ lat: position.lat / 10000000, lon: position.lon / 10000000, alt: 50, dist: 0 }] : waypoints;
+      state[uavIndex].waypoints = waypoints.length === 0 ? [{ type: 'takeoff', lat: position.lat, lon: position.lon, alt: 0, dist: 0 }] : waypoints;
     },
     rejectedConnection: (state, action: PayloadAction<number>) => {
       state[action.payload].status = 'Connection rejected';
@@ -124,17 +127,18 @@ const uavSlice = createSlice({
       const { uavIndex, battery } = action.payload;
       state[uavIndex].battery = battery;
     },
-    addWaypoint: (state, action: PayloadAction<{ uavIndex: number; waypoint: [number, number] }>) => {
-      const { uavIndex, waypoint } = action.payload;
+    addWaypoint: (state, action: PayloadAction<{ uavIndex: number; waypoint: [number, number]; type: string, alt: number }>) => {
+      const { uavIndex, waypoint, type, alt } = action.payload;
       let distance = 0
       if (state[uavIndex].waypoints.length > 0) {
         const prevWaypoint = state[uavIndex].waypoints[state[uavIndex].waypoints.length - 1];
         distance = calculateDistance(prevWaypoint.lat, prevWaypoint.lon, waypoint[0], waypoint[1]);
       }
       const newWaypoint: Waypoint = {
+        type,
         lat: waypoint[0],
         lon: waypoint[1],
-        alt: 50,
+        alt,
         dist: distance
       };
       state[uavIndex].waypoints.push(newWaypoint);
@@ -149,11 +153,17 @@ const uavSlice = createSlice({
         state[uavIndex].waypoints[i].dist = distance;
       }
       state[uavIndex].waypoints[0].dist = calculateTotalDistance(state[uavIndex].waypoints);
+    },
+    reachedWaypoint: (state, action: PayloadAction<{ uavIndex: number }>) => {
+      const { uavIndex } = action.payload;
+      const reachedWaypoint = state[uavIndex].waypoints[0];
+      state[uavIndex].reachedWaypoints.push(reachedWaypoint);
+      state[uavIndex].waypoints.shift();
     }
   },
 });
 
-export const { addUAV, removeUAV, select, connecting, connected, rejectedConnection, disconnect, setSocketId, setStatus, setPosition, setPitchAndRoll, setSpeed, setBattery, addWaypoint, removeWaypoint } = uavSlice.actions;
+export const { addUAV, removeUAV, select, connecting, connected, rejectedConnection, disconnect, setSocketId, setStatus, setPosition, setPitchAndRoll, setSpeed, setBattery, addWaypoint, removeWaypoint, reachedWaypoint } = uavSlice.actions;
 export default uavSlice.reducer;
 
 // Funciones auxiliares

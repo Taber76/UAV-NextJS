@@ -1,7 +1,8 @@
 'use client'
 import { useEffect, useState, useRef } from 'react'
 import io, { Socket } from 'socket.io-client';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { UavState } from '@/store/uavSlice';
 import { addUAV } from '@/store/uavSlice';
 import { HeadingInstrument, HorizonInstrument, AltitudeInstrument, SpeedInstrument, StatusBar, Map, WaypointsList } from "../../components";
 import FetchLib from '@/lib/fetch.lib';
@@ -14,9 +15,10 @@ export default function Main() {
   const [uavConnectedSocketId, setUavConnectedSocketId] = useState('');
   const socketRef = useRef<Socket | null>(null);
   const dispatch = useDispatch();
+  const uavData = useSelector((state: UavState) => state.uavList[0]);
 
   const handleSelectedUav = (uavSocketId: string, uavname: string) => {
-    if (uavSocketId !== '' && socketRef.current) { // connect to UAV
+    if (uavSocketId !== '' && socketRef.current) { // connect to UAV ------------
       socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'connectUav',
         username: localStorage.getItem('username') as string,
@@ -30,13 +32,14 @@ export default function Main() {
         status: 'Connected',
         socketId: uavSocketId,
         waypoints: [],
+        reachedWaypoints: [],
         position: { lat: 0, lon: 0, alt: 0, relative_alt: 0, hdg: 0 },
         roll: 0,
         pitch: 0,
         speed: 0,
         battery: 0
       }));
-    } else if (socketRef.current) { // disconnect from UAV
+    } else if (socketRef.current) { // disconnect from UAV  ---------------------
       socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'disconnectUav',
         username: localStorage.getItem('username') as string,
@@ -47,7 +50,6 @@ export default function Main() {
     }
     setUavConnectedSocketId(uavSocketId);
   }
-
 
   // set socket client ----------------------------------------------------
   useEffect(() => {
@@ -96,7 +98,6 @@ export default function Main() {
     const heartbeat = () => {
       interval = setInterval(() => {
         if (uavConnectedSocketId && socketRef.current) {
-          console.log('ping');
           const msgToUav = {
             type: "sendCommand",
             command: { type: "heartbeat" }
@@ -111,6 +112,21 @@ export default function Main() {
       clearInterval(interval);
     };
   }, [uavConnectedSocketId])
+
+  // Syncronize waypoints with UAV ---------------------------------------------------
+  useEffect(() => {
+    if (uavData.connected) {
+      const msgToUav = {
+        type: "sendCommand",
+        command: {
+          type: "syncWaypoints",
+          waypoints: uavData.waypoints
+        }
+      }
+      socketRef.current?.emit('message', MsgHandler.outgoing(msgToUav), uavData.socketId);
+    }
+  }, [uavData.waypoints]);
+
 
   return (
     <div className="mainContainer">

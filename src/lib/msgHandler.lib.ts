@@ -1,4 +1,4 @@
-import { rejectedConnection, setStatus, setPitchAndRoll, setPosition, setSpeed, setBattery } from '@/store/uavSlice';
+import { rejectedConnection, setStatus, setPitchAndRoll, setPosition, setSpeed, setBattery, reachedWaypoint } from '@/store/uavSlice';
 
 export default class MsgHandler {
 
@@ -36,6 +36,9 @@ export default class MsgHandler {
         break
       case 'landed':
         dispatch(setStatus({ uavIndex: 0, status: 'Connected' }))
+        break
+      case 'reached_waypoint':
+        dispatch(reachedWaypoint({ uavIndex: 0 }))
         break
       default:
         break;

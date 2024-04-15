@@ -28,6 +28,7 @@ const MapComponent = () => {
   const dispatch = useDispatch();
   const uavData = useSelector((state: UavState) => state.uavList[0]);
 
+  // Draw uav marker first time -------------------------------------------------
   useEffect(() => {
     if (mapRef.current && uavData.connected) {
       const map = mapRef.current;
@@ -36,6 +37,7 @@ const MapComponent = () => {
     }
   }, [uavData.connected]);
 
+  // Update uav marker position -------------------------------------------------
   useEffect(() => {
     if (uavMarkRef.current && uavData.connected) {
       const uav = uavMarkRef.current;
@@ -44,6 +46,7 @@ const MapComponent = () => {
       uav.setRotationAngle(uavData.position.hdg);
     }
   }, [uavData.position]);
+
 
   return (
     <MapContainer
@@ -106,7 +109,7 @@ function LocationMarker({ dispatch }: { dispatch: Dispatch<any> }) {
     click(e) {
       console.log(e.latlng);
       const { lat, lng } = e.latlng;
-      dispatch(addWaypoint({ uavIndex: 0, waypoint: [lat, lng] }));
+      dispatch(addWaypoint({ uavIndex: 0, waypoint: [lat, lng], type: 'type', alt: 0 }));
     }
   });
   return null;

@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# FUNCIONAMIENTO
+## SERVIDOR
+- API REST para: login de UAVs, obtener todos los UAVs conectados al servidor y login de usuarios.
+- Websocket para comunicacion entre usuarios y UAVs
+## FRONTEND
+- Login de usuarios.
+- Pagina principal.
+    - Barra de estado.
+      - Botones de ARM, TAKEOFF y LAND.
+      - Menu desplegable para conectarse a UAV disponible: al selecionar un UAV obtiene el socketId y uavname del UAV, le envia un mensaje para establecer conexion con el, y crea el UAV en el store.
+      - Badge de estado del UAV.
+      - Nivel de bateria del UAV.
+    - Waypoints: Lista desplegable de waypoints que permite borrarlos tambien.
+    - Instrumentos de vuelo del UAV.
+    - Mapa.
+      - Muestra posicion y orientacion del UAV.
+      - Muestra waypoints.
+    - Esta pagina inicia comunicacion con el websocket y maneja los mensajes a traves de la libreria msgHandler (que hace los dispatch correspondiente o envia mensajes al UAV). Tambien envia un "latido" para provocar que el UAV envie los datos de su estatus y se encarga de mantener sicronizados los arrays de waypoints del store y del UAV.
+- Componentes.
+  - Map: ademas de mostrar el mapa, dibuja la posicion y orientacion del UAV y los waypoints. Este componete despacha los nuevos waypoints al store.
+  - StatusBar: envia comandos al UAV a traves de los botones ARM/DISARM, TAKEOFF y LAND
+## LOGICA DE COMUNICACION
+- 1: Al encender el UAV, este se comunica con el servidor que lo autentifica y lo guarda en la lista (base de datos) de UAV conectados, y le provee conexion websocket.
+- 2: El cliente frontend tiene acceso a la lista de UAV conectados, entonces cuando selecciona uno obitene el socketId del mismo y su nombre.
+- 3: Al seleccionar un UAV el cliente le envia un mensaje de conexion y el UAV envia la respuesta **'acceptedConnection'** con un passkey que se almacena en el localSorage. Este passkey es necesario enviarlo para que el UAV acepte los comandos del cliente.
+- 4: Una vez establecida la conexion con el UAV, el cliente comenienza a enviar un **heartbeat** para que el UAV responda con su estado.
+- 5: El cliente puede marcar waypoints en el mapa, cada vez que agregue uno ademas de almacenarse en el store, se envia al UAV.
+- 6: El cliente puede enviar commandos de ARM/DISARM, TAKEOFF y LAND al UAV. El UAV respondera si acepto estos comandos.
+- 7: Cuando el UAV alcance un waypoint pasara a dirigirse al siguiente y le enviara el mensaje **'reached_waypoint'** al cliente. El cliente se encargara de quitar ese waypoint de la lista **waypoints** y agregarlo a la lista de **reachedWaypoints**, tambien de enviar la lista actualizada al UAV. Tanto el cliente como el UAV mantienen una lista de waypoints por si alguno de ellos pierde la conexion momentaneamente con el socket.
