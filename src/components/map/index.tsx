@@ -30,17 +30,20 @@ const MapComponent = () => {
 
   // Center map on UAV -------------------------------------------------
   useEffect(() => {
-    if (mapRef.current && uavData.connected) {
-      console.log('mapRef.current', mapRef.current)
+    if (mapRef.current) {// && uavData.connected) {
       const lat = uavData.position.lat !== 0 ? uavData.position.lat : -32.7983559;
       const lon = uavData.position.lon !== 0 ? uavData.position.lon : -55.9612037;
       const map = mapRef.current;
+      console.log('lat', lat, 'lon', lon)
       console.log('map', map)
-      //const newPosition = L.latLng(lat, lon);
-      //map.setView(newPosition, map.getZoom(), { animate: true });
-      map.panTo([-55.9612037, -32.7983559]);
+      const newPosition = L.latLng(-30, -50);
+      console.log('newPosition', newPosition)
+      map.flyTo(newPosition, map.getZoom(), { animate: true });
+
     }
-  }, [uavData.connected]);
+
+    //}, [uavData.connected]);
+  }, [mapRef.current]);
 
   // Update uav marker position -------------------------------------------------
   /* useEffect(() => {
