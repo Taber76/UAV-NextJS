@@ -8,7 +8,7 @@ import { Dispatch } from "redux";
 import { UavState, removeUAV, addWaypoint } from "../../store/uavSlice";
 
 import '../../../node_modules/leaflet/dist/leaflet.css';
-//import "../../../node_modules/leaflet-defaulticon-compatibility"
+import "../../../node_modules/leaflet-defaulticon-compatibility"
 import "../../../node_modules/leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import './styles.css';
 
@@ -31,12 +31,14 @@ const MapComponent = () => {
   // Center map on UAV -------------------------------------------------
   useEffect(() => {
     if (mapRef.current && uavData.connected) {
+      console.log('mapRef.current', mapRef.current)
       const lat = uavData.position.lat !== 0 ? uavData.position.lat : -32.7983559;
       const lon = uavData.position.lon !== 0 ? uavData.position.lon : -55.9612037;
       const map = mapRef.current;
+      console.log('map', map)
       //const newPosition = L.latLng(lat, lon);
       //map.setView(newPosition, map.getZoom(), { animate: true });
-      map.setView([-55.9612037, -32.7983559], 7);
+      map.panTo([-55.9612037, -32.7983559]);
     }
   }, [uavData.connected]);
 
