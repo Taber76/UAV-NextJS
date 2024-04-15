@@ -36,7 +36,7 @@ const MapComponent = () => {
       const map = mapRef.current;
       //const newPosition = L.latLng(lat, lon);
       //map.setView(newPosition, map.getZoom(), { animate: true });
-      map.setView([lat, lon], 7);
+      map.setView([-55.9612037, -32.7983559], 7);
     }
   }, [uavData.connected]);
 
