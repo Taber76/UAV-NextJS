@@ -1,4 +1,4 @@
-import { changeStatus, rejectedConnection, setStatus, setPitchAndRoll, setPosition, setSpeed, setBattery, reachedWaypoint } from '@/store/uavSlice';
+import { changeStatus, rejectedConnection, setStatus, setPitchAndRoll, setPosition, setSpeed, setBattery, reachedWaypoint, addWaypoint } from '@/store/uavSlice';
 
 export default class MsgHandler {
 
@@ -9,6 +9,7 @@ export default class MsgHandler {
       case 'acceptedConnection':
         localStorage.setItem('uavpass', msgObj.uavpass);
         dispatch(changeStatus({ uavIndex: 0, status: 'Connected' }));
+        dispatch(addWaypoint({ uavIndex: 0, waypoint: [msgObj.lat, msgObj.lon], type: 'takeoff', alt: 0 }));
         break;
       case 'rejectedConnection':
         dispatch(rejectedConnection(0))
@@ -52,12 +53,6 @@ export default class MsgHandler {
         return JSON.stringify({
           username: data.username,
           userSocket: data.userSocket,
-        })
-      case 'disconnectUav':
-        return JSON.stringify({
-          uavpass: localStorage.getItem('uavpass'),
-          username: data.username,
-          userSocket: data.userSocket
         })
       case 'sendCommand':
         return JSON.stringify({ ...data.command, uavpass: localStorage.getItem('uavpass') })

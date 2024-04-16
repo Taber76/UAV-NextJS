@@ -31,6 +31,9 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
         setButtonVariant('faded');
         setButtonColor('default');
         setButtonText('DISCONNECTED');
+        setArmButtonActive(false);
+        setTakeoffButtonActive(false);
+        setLandButtonActive(false);
         break
       case 'Connected':
         setButtonVariant('solid');

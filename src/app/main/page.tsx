@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from 'react'
 import io, { Socket } from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
-import { UavState } from '@/store/uavSlice';
+import { UavState, changeStatus } from '@/store/uavSlice';
 import { addUAV } from '@/store/uavSlice';
 import { HeadingInstrument, HorizonInstrument, AltitudeInstrument, SpeedInstrument, StatusBar, Map, WaypointsList } from "../../components";
 import FetchLib from '@/lib/fetch.lib';
@@ -15,10 +15,15 @@ export default function Main() {
   const [uavConnectedSocketId, setUavConnectedSocketId] = useState('');
   const socketRef = useRef<Socket | null>(null);
   const dispatch = useDispatch();
-  const uavData = useSelector((state: UavState) => state.uavList[0]);
+
+  const uavConnected = useSelector((state: UavState) => state.uavList[0]?.connected);
+  const uavSocketId = useSelector((state: UavState) => state.uavList[0]?.socketId);
+  const uavWaypoints = useSelector((state: UavState) => state.uavList[0]?.waypoints);
+
 
   const handleSelectedUav = (uavSocketId: string, uavname: string) => {
     if (uavSocketId !== '' && socketRef.current) { // connect to UAV ------------
+      setUavConnectedSocketId(uavSocketId);
       socketRef.current.emit('message', MsgHandler.outgoing({
         type: 'connectUav',
         username: localStorage.getItem('username') as string,
@@ -28,7 +33,7 @@ export default function Main() {
       );
       dispatch(addUAV({
         uavname: uavname,
-        connected: true,
+        connected: false,
         status: 'Disconnected',
         socketId: uavSocketId,
         waypoints: [],
@@ -41,12 +46,13 @@ export default function Main() {
       }));
     } else if (socketRef.current) { // disconnect from UAV  ---------------------
       socketRef.current.emit('message', MsgHandler.outgoing({
-        type: 'disconnectUav',
-        username: localStorage.getItem('username') as string,
-        userSocket: socketRef.current.id
+        type: 'sendCommand',
+        command: { type: 'disconnect' }
       }),
-        uavSocketId
+        uavConnectedSocketId
       );
+      dispatch(changeStatus({ uavIndex: 0, status: 'Disconnected' }));
+      setUavConnectedSocketId('');
     }
     setUavConnectedSocketId(uavSocketId);
   }
@@ -115,17 +121,17 @@ export default function Main() {
 
   // Syncronize waypoints with UAV ---------------------------------------------------
   useEffect(() => {
-    if (uavData.connected) {
+    if (uavConnected) {
       const msgToUav = {
         type: "sendCommand",
         command: {
           type: "syncWaypoints",
-          waypoints: uavData.waypoints
+          waypoints: uavWaypoints
         }
       }
-      socketRef.current?.emit('message', MsgHandler.outgoing(msgToUav), uavData.socketId);
+      socketRef.current?.emit('message', MsgHandler.outgoing(msgToUav), uavSocketId);
     }
-  }, [uavData.waypoints]);
+  }, [uavWaypoints]);
 
 
   return (
@@ -147,7 +153,7 @@ export default function Main() {
 
       {/*Waypoints List*/}
       <div className="waypointsContainer">
-        <WaypointsList />
+        <WaypointsList waypoints={uavWaypoints} />
       </div>
 
       {/*Instruments*/}

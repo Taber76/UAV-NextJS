@@ -45,7 +45,7 @@ const MapComponent = () => {
       uav.setLatLng([uavData.position.lat, uavData.position.lon]);
       uav.setRotationAngle(uavData.position.hdg);
     }
-  }, [uavData.position]);
+  }, [uavData.position.lat, uavData.position.lon, uavData.position.hdg]);
 
 
   return (

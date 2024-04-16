@@ -38,7 +38,7 @@ const initialState: UAV[] =
   [{
     uavname: 'Unselected',
     connected: false,
-    status: 'Disconnected',
+    status: 'Disconnected', // 'Connected' | 'Armed' | 'Takeoff' | 'Flying' | 'Landing'
     socketId: null,
     position: {
       lat: -32.7983559,
@@ -71,6 +71,11 @@ const uavSlice = createSlice({
     },
     changeStatus: (state, action: PayloadAction<{ uavIndex: number, status: string }>) => {
       state[action.payload.uavIndex].status = action.payload.status;
+      if (action.payload.status === 'Connected') {
+        state[action.payload.uavIndex].connected = true;
+      } else if (action.payload.status === 'Disconnected') {
+        state[action.payload.uavIndex].connected = false;
+      }
     },
     connected: (state, action: PayloadAction<{ uavIndex: number; status: string; socketId: string; position: Position; speed: number; battery: number; waypoints: Waypoint[] }>) => {
       const { uavIndex, status, socketId, position, speed, battery, waypoints } = action.payload;

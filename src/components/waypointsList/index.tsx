@@ -1,22 +1,14 @@
 'use client'
 
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 
-import { UavState } from "@/store/uavSlice";
+import { Waypoint } from "@/store/uavSlice";
 import { removeWaypoint } from "@/store/uavSlice";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { FiTrash } from "react-icons/fi"
 
-const WaypointsList = () => {
-  const [waypoints, setWaypoints] = useState<any[]>([]);
-  const uavData = useSelector((state: UavState) => state.uavList[0]);
+const WaypointsList = ({ waypoints }: { waypoints: Waypoint[] }) => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setWaypoints(uavData.waypoints);
-  }, [uavData.waypoints]);
 
   const handleDeleteWaypoint = (index: number) => {
     dispatch(removeWaypoint({ uavIndex: 0, index }));
