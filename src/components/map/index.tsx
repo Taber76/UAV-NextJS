@@ -17,7 +17,7 @@ import L from 'leaflet';
 import 'leaflet-rotatedmarker'
 
 const IconLocation = L.icon({
-  iconUrl: '../../public/uavmark.png',
+  iconUrl: 'uavmark.png',
   iconSize: [40, 40],
   iconAnchor: [20, 20],
 })
@@ -32,18 +32,17 @@ const MapComponent = () => {
   useEffect(() => {
     if (mapRef.current && uavData.connected) {
       const map = mapRef.current;
-      const newPosition = L.latLng(uavData.position.lat, uavData.position.lon);
-      map.flyTo(newPosition, map.getZoom(), { animate: true });
+      const lat = uavData.position.lat !== 0 ? uavData.position.lat : -32.7983559;
+      const lon = uavData.position.lon !== 0 ? uavData.position.lon : -55.9612037;
+      map.flyTo([lat, lon], map.getZoom(), { animate: true });
     }
-  }, [uavData.connected, mapRef.current]);
-
+  }, [uavData.connected]);
 
   // Update uav marker position -------------------------------------------------
   useEffect(() => {
     if (uavMarkRef.current && uavData.connected) {
       const uav = uavMarkRef.current;
-      const newPosition = L.latLng(uavData.position.lat, uavData.position.lon);
-      uav.setLatLng(newPosition);
+      uav.setLatLng([uavData.position.lat, uavData.position.lon]);
       uav.setRotationAngle(uavData.position.hdg);
     }
   }, [uavData.position]);
@@ -108,7 +107,6 @@ const MapComponent = () => {
 function LocationMarker({ dispatch }: { dispatch: Dispatch<any> }) {
   useMapEvents({
     click(e) {
-      console.log(e.latlng);
       const { lat, lng } = e.latlng;
       dispatch(addWaypoint({ uavIndex: 0, waypoint: [lat, lng], type: 'type', alt: 0 }));
     }

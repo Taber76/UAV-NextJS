@@ -69,8 +69,8 @@ const uavSlice = createSlice({
     select: (state, action: PayloadAction<{ uavName: string; uavIndex: number }>) => {
       state[action.payload.uavIndex].uavname = action.payload.uavName;
     },
-    connecting: (state, action: PayloadAction<number>) => {
-      state[action.payload].status = 'Connecting...';
+    changeStatus: (state, action: PayloadAction<{ uavIndex: number, status: string }>) => {
+      state[action.payload.uavIndex].status = action.payload.status;
     },
     connected: (state, action: PayloadAction<{ uavIndex: number; status: string; socketId: string; position: Position; speed: number; battery: number; waypoints: Waypoint[] }>) => {
       const { uavIndex, status, socketId, position, speed, battery, waypoints } = action.payload;
@@ -163,7 +163,7 @@ const uavSlice = createSlice({
   },
 });
 
-export const { addUAV, removeUAV, select, connecting, connected, rejectedConnection, disconnect, setSocketId, setStatus, setPosition, setPitchAndRoll, setSpeed, setBattery, addWaypoint, removeWaypoint, reachedWaypoint } = uavSlice.actions;
+export const { addUAV, removeUAV, select, changeStatus, connected, rejectedConnection, disconnect, setSocketId, setStatus, setPosition, setPitchAndRoll, setSpeed, setBattery, addWaypoint, removeWaypoint, reachedWaypoint } = uavSlice.actions;
 export default uavSlice.reducer;
 
 // Funciones auxiliares

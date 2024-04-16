@@ -1,4 +1,4 @@
-import { rejectedConnection, setStatus, setPitchAndRoll, setPosition, setSpeed, setBattery, reachedWaypoint } from '@/store/uavSlice';
+import { changeStatus, rejectedConnection, setStatus, setPitchAndRoll, setPosition, setSpeed, setBattery, reachedWaypoint } from '@/store/uavSlice';
 
 export default class MsgHandler {
 
@@ -8,6 +8,7 @@ export default class MsgHandler {
     switch (msgObj.type) {
       case 'acceptedConnection':
         localStorage.setItem('uavpass', msgObj.uavpass);
+        dispatch(changeStatus({ uavIndex: 0, status: 'Connected' }));
         break;
       case 'rejectedConnection':
         dispatch(rejectedConnection(0))

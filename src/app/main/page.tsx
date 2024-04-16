@@ -29,7 +29,7 @@ export default function Main() {
       dispatch(addUAV({
         uavname: uavname,
         connected: true,
-        status: 'Connected',
+        status: 'Disconnected',
         socketId: uavSocketId,
         waypoints: [],
         reachedWaypoints: [],
