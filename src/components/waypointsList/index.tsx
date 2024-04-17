@@ -1,6 +1,7 @@
 'use client'
 
 import { useDispatch } from 'react-redux';
+import { useEffect, useState } from "react";
 
 import { Waypoint } from "@/store/uavSlice";
 import { removeWaypoint } from "@/store/uavSlice";
@@ -8,7 +9,22 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@
 import { FiTrash } from "react-icons/fi"
 
 const WaypointsList = ({ waypoints }: { waypoints: Waypoint[] }) => {
+  const [dropdownItems, setDropdownItems] = useState(['Home / Takeoff']);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (waypoints.length === 0) return;
+    const listItems = waypoints.map((waypoint, index) => {
+      if (index === 0) {
+        return 'Home / Takeoff';
+      } else {
+        return `${index} - ${waypoint.type} ${waypoint.dist.toFixed(1)}Km`;
+      }
+    });
+    listItems.push(`Total distance ${waypoints[0].dist.toFixed(1)}Km`);
+    setDropdownItems(listItems);
+  }, [waypoints]);
+
 
   const handleDeleteWaypoint = (index: number) => {
     dispatch(removeWaypoint({ uavIndex: 0, index }));
@@ -34,11 +50,13 @@ const WaypointsList = ({ waypoints }: { waypoints: Waypoint[] }) => {
         color={'primary'}
         variant={'solid'}
       >
-        {waypoints.map((waypoint, index) => (
-          <DropdownItem key={index} textValue={waypoint.type} onMouseEnter={() => handleHoverItem(index)}>
+        {dropdownItems.map((waypoint, index) => (
+          <DropdownItem key={index} textValue={waypoint} onMouseEnter={() => handleHoverItem(index)}>
             <div className="flex justify-between items-center">
-              <span>{index} - {waypoint.type}</span>
-              <FiTrash className="ml-2" onClick={() => handleDeleteWaypoint(index)} style={{ marginLeft: '0.5rem', cursor: 'pointer' }} />
+              <span>{waypoint}</span>
+              {(index > 0 && index < dropdownItems.length - 1) &&
+                <FiTrash className="ml-2" onClick={() => handleDeleteWaypoint(index)} style={{ marginLeft: '0.5rem', cursor: 'pointer' }} />
+              }
             </div>
           </DropdownItem>
         ))}

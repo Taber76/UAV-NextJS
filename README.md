@@ -22,7 +22,7 @@
 ## LOGICA DE COMUNICACION
 - 1: Al encender el UAV, este se comunica con el servidor que lo autentifica y lo guarda en la lista (base de datos) de UAV conectados, y le provee conexion websocket.
 - 2: El cliente frontend tiene acceso a la lista de UAV conectados, entonces cuando selecciona uno obitene el socketId del mismo y su nombre.
-- 3: Al seleccionar un UAV el cliente le envia un mensaje de conexion y el UAV envia la respuesta **'acceptedConnection'** con un passkey que se almacena en el localSorage. Este passkey es necesario enviarlo para que el UAV acepte los comandos del cliente.
+- 3: Al seleccionar un UAV el cliente le envia un mensaje de conexion y el UAV envia la respuesta **'acceptedConnection'** con un passkey que se almacena en el localSorage. Este passkey es necesario enviarlo para que el UAV acepte los comandos del cliente. Si el campo **"health"** es true (el GPS esta enviando una ubicacion valida), se carga como primer waypoint (home) la posicion actual del UAV.
 - 4: Una vez establecida la conexion con el UAV, el cliente comenienza a enviar un **heartbeat** para que el UAV responda con su estado.
 - 5: El cliente puede marcar waypoints en el mapa, cada vez que agregue uno ademas de almacenarse en el store, se envia al UAV.
 - 6: El cliente puede enviar commandos de ARM/DISARM, TAKEOFF y LAND al UAV. El UAV respondera si acepto estos comandos.

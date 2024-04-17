@@ -38,7 +38,7 @@ export default function Main() {
         socketId: uavSocketId,
         waypoints: [],
         reachedWaypoints: [],
-        position: { lat: 0, lon: 0, alt: 0, relative_alt: 0, hdg: 0 },
+        position: { health: false, lat: 0, lon: 0, alt: 0, relative_alt: 0, hdg: 0 },
         roll: 0,
         pitch: 0,
         speed: 0,

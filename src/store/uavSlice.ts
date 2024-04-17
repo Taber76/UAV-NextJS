@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Position {
+  health: boolean;
   lat: number;
   lon: number;
   alt: number;
@@ -41,6 +42,7 @@ const initialState: UAV[] =
     status: 'Disconnected', // 'Connected' | 'Armed' | 'Takeoff' | 'Flying' | 'Landing'
     socketId: null,
     position: {
+      health: false,
       lat: -32.7983559,
       lon: -55.9612037,
       alt: 0,
@@ -83,6 +85,7 @@ const uavSlice = createSlice({
       state[uavIndex].status = status;
       state[uavIndex].socketId = socketId;
       state[uavIndex].position = {
+        health: position.health,
         lat: position.lat,
         lon: position.lon,
         alt: position.alt,
@@ -112,6 +115,7 @@ const uavSlice = createSlice({
     setPosition: (state, action: PayloadAction<{ uavIndex: number; position: Position }>) => {
       const { uavIndex, position } = action.payload;
       state[uavIndex].position = {
+        health: position.health,
         lat: position.lat,
         lon: position.lon,
         alt: position.alt,

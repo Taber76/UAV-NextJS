@@ -9,14 +9,18 @@ export default class MsgHandler {
       case 'acceptedConnection':
         localStorage.setItem('uavpass', msgObj.uavpass);
         dispatch(changeStatus({ uavIndex: 0, status: 'Connected' }));
-        dispatch(addWaypoint({ uavIndex: 0, waypoint: [msgObj.lat, msgObj.lon], type: 'takeoff', alt: 0 }));
+        if (msgObj.health) {
+          dispatch(addWaypoint({ uavIndex: 0, waypoint: [msgObj.lat, msgObj.lon], type: 'Home', alt: 0 }));
+        }
         break;
       case 'rejectedConnection':
         dispatch(rejectedConnection(0))
         // muestro error
         break
       case 'status':
-        dispatch(setPosition({ uavIndex: 0, position: { lat: msgObj.lat, lon: msgObj.lon, alt: msgObj.alt, relative_alt: 0, hdg: msgObj.yaw } }))
+        if (msgObj.health) {
+          dispatch(setPosition({ uavIndex: 0, position: { health: true, lat: msgObj.lat, lon: msgObj.lon, alt: msgObj.alt, relative_alt: 0, hdg: msgObj.yaw } }))
+        }
         dispatch(setPitchAndRoll({ uavIndex: 0, pitch: msgObj.pitch, roll: msgObj.roll }))
         dispatch(setSpeed({ uavIndex: 0, speed: msgObj.ground_speed }))
         dispatch(setBattery({ uavIndex: 0, battery: msgObj.battery_percent }))

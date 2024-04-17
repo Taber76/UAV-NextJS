@@ -16,8 +16,22 @@ import './styles.css';
 import L from 'leaflet';
 import 'leaflet-rotatedmarker'
 
-const IconLocation = L.icon({
-  iconUrl: 'uavmark.png',
+const HomeMarker = L.icon({
+  iconUrl: 'map/home_mark.png',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40],
+})
+
+const WaypointMarker = L.icon({
+  iconUrl: 'map/waypoint_mark.png',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40],
+})
+
+const UavMarker = L.icon({
+  iconUrl: 'map/uav_mark.png',
   iconSize: [40, 40],
   iconAnchor: [20, 20],
 })
@@ -67,7 +81,7 @@ const MapComponent = () => {
           key={uavData.position.hdg}
           ref={uavMarkRef}
           position={[uavData.position.lat, uavData.position.lon]}
-          icon={IconLocation}
+          icon={UavMarker}
           rotationAngle={uavData.position.hdg}
           rotationOrigin="center"
         />
@@ -76,7 +90,10 @@ const MapComponent = () => {
       {/* Waypoints Markers */}
       {uavData.waypoints.map((position, idx) => (
         <div key={`marker-${idx}`}>
-          <Marker position={[position.lat, position.lon]}>
+          <Marker
+            position={[position.lat, position.lon]}
+            icon={idx === 0 ? HomeMarker : WaypointMarker}
+          >
             <Popup>
               <span>WP {idx}</span>
             </Popup>
@@ -103,12 +120,12 @@ const MapComponent = () => {
   );
 };
 
-// Location Marker is a react-leaflet hook
+// Location Marker is a react-leaflet hook - add waypoint
 function LocationMarker({ dispatch }: { dispatch: Dispatch<any> }) {
   useMapEvents({
     click(e) {
       const { lat, lng } = e.latlng;
-      dispatch(addWaypoint({ uavIndex: 0, waypoint: [lat, lng], type: 'type', alt: 0 }));
+      dispatch(addWaypoint({ uavIndex: 0, waypoint: [lat, lng], type: 'Waypoint', alt: 0 }));
     }
   });
   return null;

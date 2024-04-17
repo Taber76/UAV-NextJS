@@ -40,6 +40,7 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
         setButtonColor('success');
         setButtonText('CONNECTED');
         setArmButtonActive(true);
+        setArmButtonText('ARM');
         break
       case 'Armed':
         setButtonColor('warning');
@@ -76,7 +77,7 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
       const msgToUav = MsgHandler.outgoing({
         type: 'sendCommand',
         command: {
-          command: 'arm'
+          type: 'arm'
         }
       })
       socketRef.current?.emit('message', msgToUav, uavData.socketId);
@@ -84,7 +85,7 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
       const msgToUav = MsgHandler.outgoing({
         type: 'sendCommand',
         command: {
-          command: 'disarm'
+          type: 'disarm'
         }
       })
       socketRef.current?.emit('message', msgToUav, uavData.socketId);
@@ -96,7 +97,7 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
       const msgToUav = MsgHandler.outgoing({
         type: 'sendCommand',
         command: {
-          command: 'takeoff'
+          type: 'takeoff'
         }
       })
       socketRef.current?.emit('message', msgToUav, uavData.socketId);
