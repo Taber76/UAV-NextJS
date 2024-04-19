@@ -136,17 +136,17 @@ const uavSlice = createSlice({
       const { uavIndex, battery } = action.payload;
       state[uavIndex].battery = battery;
     },
-    addWaypoint: (state, action: PayloadAction<{ uavIndex: number; waypoint: [number, number]; type: string, alt: number }>) => {
-      const { uavIndex, waypoint, type, alt } = action.payload;
+    addWaypoint: (state, action: PayloadAction<{ uavIndex: number, type: string, lat: number, lon: number, alt: number }>) => {
+      const { uavIndex, type, lat, lon, alt } = action.payload;
       let distance = 0
       if (state[uavIndex].waypoints.length > 0) {
         const prevWaypoint = state[uavIndex].waypoints[state[uavIndex].waypoints.length - 1];
-        distance = calculateDistance(prevWaypoint.lat, prevWaypoint.lon, waypoint[0], waypoint[1]);
+        distance = calculateDistance(prevWaypoint.lat, prevWaypoint.lon, lat, lon);
       }
       const newWaypoint: Waypoint = {
         type,
-        lat: waypoint[0],
-        lon: waypoint[1],
+        lat,
+        lon,
         alt,
         dist: distance
       };
@@ -163,11 +163,11 @@ const uavSlice = createSlice({
       }
       state[uavIndex].waypoints[0].dist = calculateTotalDistance(state[uavIndex].waypoints);
     },
-    reachedWaypoint: (state, action: PayloadAction<{ uavIndex: number }>) => {
-      const { uavIndex } = action.payload;
-      const reachedWaypoint = state[uavIndex].waypoints[0];
+    reachedWaypoint: (state, action: PayloadAction<{ uavIndex: number, waypointIndex: number }>) => {
+      const { uavIndex, waypointIndex } = action.payload;
+      const reachedWaypoint = state[uavIndex].waypoints[waypointIndex];
       state[uavIndex].reachedWaypoints.push(reachedWaypoint);
-      state[uavIndex].waypoints.shift();
+      state[uavIndex].waypoints.splice(waypointIndex, 1);
     }
   },
 });

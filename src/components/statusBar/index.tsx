@@ -18,15 +18,12 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
   const [buttonColor, setButtonColor] = useState<"default" | "success" | "warning" | "primary" | "secondary" | "danger" | undefined>('default');
   const [buttonVariant, setButtonVariant] = useState<"solid" | "faded" | undefined>('faded');
   const [buttonText, setButtonText] = useState('Default');
-  const [battery, setBattery] = useState(0);
-  const uavData = useSelector((state: UavState) => state.uavList[0]);
+  const uavStatus = useSelector((state: UavState) => state.uavList[0].status);
+  const uavBattery = useSelector((state: UavState) => state.uavList[0].battery);
+  const uavSocketId = useSelector((state: UavState) => state.uavList[0].socketId);
 
   useEffect(() => {
-    setBattery(uavData.battery);
-  }, [uavData.battery]);
-
-  useEffect(() => {
-    switch (uavData.status) {
+    switch (uavStatus) {
       case 'Disconnected':
         setButtonVariant('faded');
         setButtonColor('default');
@@ -68,51 +65,51 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
         setButtonText('DEFAULT');
         break;
     }
-  }, [uavData.status]);
+  }, [uavStatus]);
 
 
   // Funciones de manejo de eventos para cada botón
   const handleArmButtonClick = () => {
-    if (uavData.status === 'Connected') {
+    if (uavStatus === 'Connected') {
       const msgToUav = MsgHandler.outgoing({
         type: 'sendCommand',
         command: {
           type: 'arm'
         }
       })
-      socketRef.current?.emit('message', msgToUav, uavData.socketId);
-    } else if (uavData.status === 'Armed') {
+      socketRef.current?.emit('message', msgToUav, uavSocketId);
+    } else if (uavStatus === 'Armed') {
       const msgToUav = MsgHandler.outgoing({
         type: 'sendCommand',
         command: {
           type: 'disarm'
         }
       })
-      socketRef.current?.emit('message', msgToUav, uavData.socketId);
+      socketRef.current?.emit('message', msgToUav, uavSocketId);
     }
   };
 
   const handleTakeoffButtonClick = () => {
-    if (uavData.status === 'Armed') {
+    if (uavStatus === 'Armed') {
       const msgToUav = MsgHandler.outgoing({
         type: 'sendCommand',
         command: {
           type: 'takeoff'
         }
       })
-      socketRef.current?.emit('message', msgToUav, uavData.socketId);
+      socketRef.current?.emit('message', msgToUav, uavSocketId);
     }
   };
 
   const handleLandButtonClick = () => {
-    if (uavData.status === 'Flying') {
+    if (uavStatus === 'Flying') {
       const msgToUav = MsgHandler.outgoing({
         type: 'sendCommand',
         command: {
           command: 'land'
         }
       })
-      socketRef.current?.emit('message', msgToUav, uavData.socketId);
+      socketRef.current?.emit('message', msgToUav, uavSocketId);
     }
   };
 
@@ -190,7 +187,7 @@ const StatusBar: React.FC<{ uavs: any[]; handleSelectedUav: (socketId: string, u
 
         {/* Batería */}
         <div className='flex justify-center items-center'>
-          <BatteryInstrument battery={battery} />
+          <BatteryInstrument battery={uavBattery} />
         </div>
 
 

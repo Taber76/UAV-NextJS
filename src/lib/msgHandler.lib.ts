@@ -9,8 +9,14 @@ export default class MsgHandler {
       case 'acceptedConnection':
         localStorage.setItem('uavpass', msgObj.uavpass);
         dispatch(changeStatus({ uavIndex: 0, status: 'Connected' }));
-        if (msgObj.health) {
-          dispatch(addWaypoint({ uavIndex: 0, waypoint: [msgObj.lat, msgObj.lon], type: 'Home', alt: 0 }));
+        if (msgObj.waypoints.length > 0) {
+          msgObj.waypoints.forEach((waypoint: any) => {
+            dispatch(addWaypoint({ uavIndex: 0, lat: waypoint.lat, lon: waypoint.lon, type: waypoint.type, alt: waypoint.alt }));
+          })
+          dispatch(reachedWaypoint({ uavIndex: 0, waypointIndex: 0 }));
+        } else if (msgObj.health) {
+          dispatch(addWaypoint({ uavIndex: 0, lat: msgObj.lat, lon: msgObj.lon, type: 'Home', alt: 0 }));
+          dispatch(reachedWaypoint({ uavIndex: 0, waypointIndex: 0 }));
         }
         break;
       case 'rejectedConnection':
@@ -44,7 +50,7 @@ export default class MsgHandler {
         dispatch(setStatus({ uavIndex: 0, status: 'Connected' }))
         break
       case 'reached_waypoint':
-        dispatch(reachedWaypoint({ uavIndex: 0 }))
+        dispatch(reachedWaypoint({ uavIndex: 0, waypointIndex: 1 }))
         break
       default:
         break;

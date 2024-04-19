@@ -1,15 +1,16 @@
 'use client'
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 
-import { Waypoint } from "@/store/uavSlice";
-import { removeWaypoint } from "@/store/uavSlice";
+import { Waypoint, removeWaypoint } from "@/store/uavSlice";
+import { GlobalState } from "@/store/globalSlice";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { FiTrash } from "react-icons/fi"
 
 const WaypointsList = ({ waypoints }: { waypoints: Waypoint[] }) => {
   const [dropdownItems, setDropdownItems] = useState(['Home / Takeoff']);
+  const mapRef = useSelector((state: GlobalState) => state.global.mapRef);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,7 +32,13 @@ const WaypointsList = ({ waypoints }: { waypoints: Waypoint[] }) => {
   };
 
   const handleHoverItem = (index: number) => {
-    console.log(index)
+    console.log('hover', index)
+  };
+
+  const handleClickItem = (index: number) => {
+    const { lat, lon } = waypoints[index];
+    mapRef.flyTo([lat, lon], mapRef.getZoom(), { animate: true });
+    // editar waypoint
   };
 
   const DropdownContent = () => (
@@ -51,7 +58,7 @@ const WaypointsList = ({ waypoints }: { waypoints: Waypoint[] }) => {
         variant={'solid'}
       >
         {dropdownItems.map((waypoint, index) => (
-          <DropdownItem key={index} textValue={waypoint} onMouseEnter={() => handleHoverItem(index)}>
+          <DropdownItem key={index} textValue={waypoint} onMouseEnter={() => handleHoverItem(index)} onClick={() => handleClickItem(index)}>
             <div className="flex justify-between items-center">
               <span>{waypoint}</span>
               {(index > 0 && index < dropdownItems.length - 1) &&

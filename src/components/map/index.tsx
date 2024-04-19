@@ -6,6 +6,7 @@ import { TileLayer, MapContainer, Marker, Popup, useMapEvents, Polyline, useMap 
 import { Dispatch } from "redux";
 
 import { UavState, removeUAV, addWaypoint } from "../../store/uavSlice";
+import { setMapRef } from "@/store/globalSlice";
 
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import "../../../node_modules/leaflet-defaulticon-compatibility"
@@ -40,26 +41,35 @@ const MapComponent = () => {
   const mapRef = useRef<L.Map | null>(null);
   const uavMarkRef = useRef<L.Marker | null>(null);
   const dispatch = useDispatch();
-  const uavData = useSelector((state: UavState) => state.uavList[0]);
+  const uavConnected = useSelector((state: UavState) => state.uavList[0].connected);
+  const uavPosition = useSelector((state: UavState) => state.uavList[0].position);
+  const uavWaypoints = useSelector((state: UavState) => state.uavList[0].waypoints);
 
   // Center map on UAV conection -------------------------------------------------
   useEffect(() => {
-    if (mapRef.current && uavData.connected) {
+    if (mapRef.current && uavConnected) {
       const map = mapRef.current;
-      const lat = uavData.position.lat !== 0 ? uavData.position.lat : -32.7983559;
-      const lon = uavData.position.lon !== 0 ? uavData.position.lon : -55.9612037;
+      const lat = uavPosition.lat !== 0 ? uavPosition.lat : -32.7983559;
+      const lon = uavPosition.lon !== 0 ? uavPosition.lon : -55.9612037;
       map.flyTo([lat, lon], map.getZoom(), { animate: true });
     }
-  }, [uavData.connected]);
+  }, [uavConnected]);
 
   // Update uav marker position -------------------------------------------------
   useEffect(() => {
-    if (uavMarkRef.current && uavData.connected) {
+    if (uavMarkRef.current && uavConnected) {
       const uav = uavMarkRef.current;
-      uav.setLatLng([uavData.position.lat, uavData.position.lon]);
-      uav.setRotationAngle(uavData.position.hdg);
+      uav.setLatLng([uavPosition.lat, uavPosition.lon]);
+      uav.setRotationAngle(uavPosition.hdg);
     }
-  }, [uavData.position.lat, uavData.position.lon, uavData.position.hdg]);
+  }, [uavPosition.lat, uavPosition.lon, uavPosition.hdg]);
+
+  // Update map ref -------------------------------------------------------------
+  useEffect(() => {
+    if (mapRef.current) {
+      dispatch(setMapRef(mapRef.current));
+    }
+  }, [mapRef.current]);
 
 
   return (
@@ -76,19 +86,19 @@ const MapComponent = () => {
       />
 
       {/* UAV Marker */}
-      {uavData.connected && (
+      {uavConnected && (
         <Marker
-          key={uavData.position.hdg}
+          key={uavPosition.hdg}
           ref={uavMarkRef}
-          position={[uavData.position.lat, uavData.position.lon]}
+          position={[uavPosition.lat, uavPosition.lon]}
           icon={UavMarker}
-          rotationAngle={uavData.position.hdg}
+          rotationAngle={uavPosition.hdg}
           rotationOrigin="center"
         />
       )}
 
       {/* Waypoints Markers */}
-      {uavData.waypoints.map((position, idx) => (
+      {uavWaypoints.map((position, idx) => (
         <div key={`marker-${idx}`}>
           <Marker
             position={[position.lat, position.lon]}
@@ -98,11 +108,11 @@ const MapComponent = () => {
               <span>WP {idx}</span>
             </Popup>
           </Marker>
-          {idx > 0 && uavData.waypoints[idx - 1] && (
+          {idx > 0 && uavWaypoints[idx - 1] && (
             <Polyline
               pathOptions={{ color: 'red' }}
               positions={[
-                [uavData.waypoints[idx - 1].lat, uavData.waypoints[idx - 1].lon],
+                [uavWaypoints[idx - 1].lat, uavWaypoints[idx - 1].lon],
                 [position.lat, position.lon]
               ]}
             >
@@ -125,7 +135,7 @@ function LocationMarker({ dispatch }: { dispatch: Dispatch<any> }) {
   useMapEvents({
     click(e) {
       const { lat, lng } = e.latlng;
-      dispatch(addWaypoint({ uavIndex: 0, waypoint: [lat, lng], type: 'Waypoint', alt: 0 }));
+      dispatch(addWaypoint({ uavIndex: 0, lat: lat, lon: lng, type: 'Waypoint', alt: 0 }));
     }
   });
   return null;
