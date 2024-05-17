@@ -6,7 +6,7 @@ import { TileLayer, MapContainer, Marker, Popup, useMapEvents, Polyline, useMap 
 import { Dispatch } from "redux";
 
 import { UavState, removeUAV, addWaypoint } from "../../store/uavSlice";
-import { setMapRef } from "@/store/globalSlice";
+import { GlobalState, setMapView } from "@/store/globalSlice";
 
 import '../../../node_modules/leaflet/dist/leaflet.css';
 import "../../../node_modules/leaflet-defaulticon-compatibility"
@@ -44,17 +44,28 @@ const MapComponent = () => {
   const uavConnected = useSelector((state: UavState) => state.uavList[0].connected);
   const uavPosition = useSelector((state: UavState) => state.uavList[0].position);
   const uavWaypoints = useSelector((state: UavState) => state.uavList[0].waypoints);
+  const mapView = useSelector((state: GlobalState) => state.global);
 
-  // Center map on UAV conection -------------------------------------------------
+  // Center map on change mapView -------------------------------------------------
   useEffect(() => {
+    if (mapRef.current) {
+      const map = mapRef.current;
+      map.flyTo([mapView.mapLat, mapView.mapLon], mapView.mapZoom, { animate: true });
+    }
+  }, [mapView.mapLat, mapView.mapLon]);
+
+  // SACAR EVENTUALMENTE
+  // Center map on UAV conection -------------------------------------------------
+  /*useEffect(() => {
     if (mapRef.current && uavConnected) {
       const map = mapRef.current;
       const lat = uavPosition.lat !== 0 ? uavPosition.lat : -32.7983559;
       const lon = uavPosition.lon !== 0 ? uavPosition.lon : -55.9612037;
       map.flyTo([lat, lon], map.getZoom(), { animate: true });
+      dispatch(setMapView({ mapLat: lat, mapLon: lon, mapZoom: map.getZoom() }));
     }
   }, [uavConnected]);
-
+*/
   // Update uav marker position -------------------------------------------------
   useEffect(() => {
     if (uavMarkRef.current && uavConnected) {
@@ -64,20 +75,13 @@ const MapComponent = () => {
     }
   }, [uavPosition.lat, uavPosition.lon, uavPosition.hdg]);
 
-  // Update map ref -------------------------------------------------------------
-  useEffect(() => {
-    if (mapRef.current) {
-      dispatch(setMapRef(mapRef.current));
-    }
-  }, [mapRef.current]);
-
 
   return (
     <MapContainer
       ref={mapRef}
       className='leaflet-container'
-      center={[-32.7983559, -55.9612037]}
-      zoom={7}
+      center={[mapView.mapLat, mapView.mapLon]}
+      zoom={mapView.mapZoom}
       scrollWheelZoom={true}
     >
       <TileLayer
@@ -130,7 +134,7 @@ const MapComponent = () => {
   );
 };
 
-// Location Marker is a react-leaflet hook - add waypoint
+// Location Marker is a react-leaflet hook - for add waypoint
 function LocationMarker({ dispatch }: { dispatch: Dispatch<any> }) {
   useMapEvents({
     click(e) {

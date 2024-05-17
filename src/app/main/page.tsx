@@ -168,20 +168,3 @@ export default function Main() {
   )
 }
 
-/*
-
-<div className="horizonContainer">
-<HorizonInst />
-</div>
-<div className="videoContainer">
-<UavVideo videoUrl={videoUrl} />
-</div>
-<div className="waypointsContainer">
-<WaypointList />
-</div>
-<div className="mapContainer">
-<MapComponent />
-</div>
-</div>
-)
-}*/

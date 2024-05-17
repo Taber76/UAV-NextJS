@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 
 import { Waypoint, removeWaypoint } from "@/store/uavSlice";
-import { GlobalState } from "@/store/globalSlice";
+import { setMapView } from "@/store/globalSlice";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { FiTrash } from "react-icons/fi"
 
 const WaypointsList = ({ waypoints }: { waypoints: Waypoint[] }) => {
   const [dropdownItems, setDropdownItems] = useState(['Home / Takeoff']);
-  const mapRef = useSelector((state: GlobalState) => state.global.mapRef);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const WaypointsList = ({ waypoints }: { waypoints: Waypoint[] }) => {
 
   const handleClickItem = (index: number) => {
     const { lat, lon } = waypoints[index];
-    mapRef.flyTo([lat, lon], mapRef.getZoom(), { animate: true });
+    dispatch(setMapView({ mapLat: lat, mapLon: lon }));
     // editar waypoint
   };
 

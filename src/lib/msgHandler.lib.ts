@@ -1,4 +1,5 @@
 import { changeStatus, rejectedConnection, setStatus, setPitchAndRoll, setPosition, setSpeed, setBattery, reachedWaypoint, addWaypoint } from '@/store/uavSlice';
+import { setMapView } from '@/store/globalSlice';
 
 export default class MsgHandler {
 
@@ -9,7 +10,10 @@ export default class MsgHandler {
       case 'acceptedConnection':
         localStorage.setItem('uavpass', msgObj.uavpass);
         dispatch(changeStatus({ uavIndex: 0, status: 'Connected' }));
-        if (msgObj.waypoints.length > 0) {
+        if (msgObj.health) {
+          dispatch(setMapView({ mapLat: msgObj.lat, mapLon: msgObj.lon, mapZoom: 10 }));
+        }
+        if (msgObj.waypoints?.length > 0) {
           msgObj.waypoints.forEach((waypoint: any) => {
             dispatch(addWaypoint({ uavIndex: 0, lat: waypoint.lat, lon: waypoint.lon, type: waypoint.type, alt: waypoint.alt }));
           })
